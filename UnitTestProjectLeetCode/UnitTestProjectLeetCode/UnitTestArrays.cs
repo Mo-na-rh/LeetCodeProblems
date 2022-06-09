@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTestLeetCodeProjects
+namespace UnitTestProjectLeetCode
 {
     [TestClass]
-    public class UnitTestArrays
+    public class UnitTestArrays1
     {
 
         [TestMethod]

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
-namespace UnitTestLeetCodeProjects
+namespace UnitTestProjectLeetCode
 {
     /// <summary>
     /// Summary description for UnitTest2

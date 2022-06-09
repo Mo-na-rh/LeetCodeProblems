@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
 using System.Linq;
 
-namespace UnitTestProject2
+namespace UnitTestProjectLeetCode
 {
     /// <summary>
     /// Summary description for UnitTestTopEasyProblems
