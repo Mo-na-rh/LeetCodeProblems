@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
-namespace UnitTestProjectLeetCode
+namespace UnitTestLeetCodeProjects
 {
     /// <summary>
     /// Summary description for UnitTest2
@@ -548,123 +548,244 @@ namespace UnitTestProjectLeetCode
         }
 
         [TestMethod]
-        public void TestMethodOneIteration()
+        public void TestMethodSwapPairs()
         {
-            var l6 = new ListNode(3, null);
-            var l5 = new ListNode(8, l6);
-            var l4 = new ListNode(7, l5);
-            var l3 = new ListNode(2, l4);
-            var l2 = new ListNode(5, l3);
+            var l5 = new ListNode(5, null);
+            var l4 = new ListNode(4, l5);
+            var l3 = new ListNode(3, l4);
+            var l2 = new ListNode(2, l3);
             var l1 = new ListNode(1, l2);
 
-            allIter(l1);
+            var l = SwapPairs(l1);
 
-            Assert.AreEqual(3, l1.next.val);
+            Assert.AreEqual(2, l.val);
         }
 
         [TestMethod]
-        public void TestMethodcountBinarySubstrings()
+        public void TestMethodMiddleNode()
         {
-            var cntSubstr = countBinarySubstrings("001100011");
+            var l5 = new ListNode(5, null);
+            var l4 = new ListNode(4, l5);
+            var l3 = new ListNode(3, l4);
+            var l2 = new ListNode(2, l3);
+            var l1 = new ListNode(1, l2);
 
-            Assert.AreEqual(6, cntSubstr);
+            var l = MiddleNode(l1);
+
+            Assert.AreEqual(3, l.val);
         }
 
-        public int countBinarySubstrings(String s)
+        [TestMethod]
+        public void TestMethodMiddleNode1()
         {
-            int prevRunLength = 0, curRunLength = 1, res = 0;
-            for (int i = 1; i < s.Length; i++)
-            {
-                if (s[i] == s[i - 1]) curRunLength++;
-                else
-                {
-                    prevRunLength = curRunLength;
-                    curRunLength = 1;
-                }
-                if (prevRunLength >= curRunLength) res++;
-            }
-            return res;
-            /*int[] groups = new int[s.Length];
-            int t = 0;
-            groups[0] = 1;
-            for (int i = 1; i < s.Length; i++)
-            {
-                if (s[i - 1] != s[i])
-                {
-                    groups[++t] = 1;
-                }
-                else
-                {
-                    groups[t]++;
-                }
-            }
+            var l6 = new ListNode(6, null);
+            var l5 = new ListNode(5, l6);
+            var l4 = new ListNode(4, l5);
+            var l3 = new ListNode(3, l4);
+            var l2 = new ListNode(2, l3);
+            var l1 = new ListNode(1, l2);
 
-            int ans = 0;
-            for (int i = 1; i <= t; i++)
-            {
-                ans += Math.Min(groups[i - 1], groups[i]);
-            }
-            return ans;*/
+            var l = MiddleNode(l1);
+
+            Assert.AreEqual(4, l.val);
         }
 
-
-        public void allIter(ListNode head)
+        [TestMethod]
+        public void TestMethodPairSum()
         {
-            while (head.next != null)
-            {
-                head = OneIteration(head);
-            }
+            var l4 = new ListNode(3, null);
+            var l3 = new ListNode(2, l4);
+            var l2 = new ListNode(2, l3);
+            var l1 = new ListNode(4, l2);
+            var actual = PairSum(l1);
 
+            Assert.AreEqual(7, actual);
         }
 
-        public ListNode OneIteration(ListNode head)
+        [TestMethod]
+        public void TestMethodDeleteDuplicates()
         {
-            if (head == null) return null;
+            var l4 = new ListNode(3, null);
+            var l3 = new ListNode(2, l4);
+            var l2 = new ListNode(2, l3);
+            var l1 = new ListNode(4, l2);
+            var actual = DeleteDuplicates(l1);
 
-            var odd = head;
-            var even = head.next;
-            var evenHead = even;
-            while (even != null && even.next != null)
+            Assert.AreEqual(3, actual.next.next.val);
+        }
+
+        [TestMethod]
+        public void TestMethodReverse()
+        {
+            var l5 = new ListNode(5, null);
+            var l4 = new ListNode(4, l5);
+            var l3 = new ListNode(3, l4);
+            var l2 = new ListNode(2, l3);
+            var l1 = new ListNode(1, l2);
+            var actual = Reverse(l1, 2, 4);
+
+            Assert.AreEqual(4, actual.next.val);
+        }
+
+        public static ListNode Reverse(ListNode head, int left, int right)
+        {
+            var m = left;
+            var n = right;
+            // Empty list
+            if (head == null)
             {
-                odd.next = even.next;
-                odd = odd.next;
-                even.next = odd.next;
-                even = even.next;
+                return null;
             }
-            odd.next = evenHead;
 
-
-            return evenHead;
-
-            /*if (head == null) return null;
-
-            var odd = head;
-            var even = head.next;
-            var evenHead = even;
-
-            while (evenHead.next != null)
+            // Move the two pointers until they reach the proper starting point
+            // in the list.
+            ListNode cur = head, prev = null;
+            while (m > 1)
             {
-                // разделили на 2 
-                while (even != null && even.next != null)
-                {
-                    odd.next = even.next;
-                    odd = odd.next;
-                    even.next = odd.next;
-                    even = even.next;
-                }
+                prev = cur;
+                cur = cur.next;
+                m--;
+                n--;
+            }
 
-                // связали 2 половины
-                odd.next = evenHead;
+            // The two pointers that will fix the final connections.
+            ListNode con = prev, tail = cur;
 
-                // переприсвоили указатели
-                odd = evenHead;
-                even = evenHead.next;
-                evenHead = even;
-            }*/
+            // Iteratively reverse the nodes until n becomes 0.
+            ListNode third = null;
+            while (n > 0)
+            {
+                third = cur.next;
+                cur.next = prev;
+                prev = cur;
+                cur = third;
+                n--;
+            }
 
+            // Adjust the final connections as explained in the algorithm
+            if (con != null)
+            {
+                con.next = prev;
+            }
+            else
+            {
+                head = prev;
+            }
 
+            tail.next = cur;
+            return head;
+        }
+
+        public ListNode DeleteDuplicates(ListNode head)
+        {
+            if (head == null) return head;
+            var prev = head;
+            var curr = head;
+            while (curr.next != null)
+            {
+                curr = curr.next;
+                if (curr.val == prev.val)
+                    continue;
+                prev.next = curr;
+                prev = curr;
+            }
+            return head;
+        }
+
+        // Given a linked list with even length
+        //
+        public int PairSum(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return 0;
+
+            // initialize pointers
+            var slow = head;
+            var fast = head;
+            
+            // get after middle node
+            while (fast != null && fast.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            // set right part of list in stack
+            var stk = new Stack<int>();
+            stk.Push(slow.val);
+
+            // fill stack
+            while (slow.next != null)
+            {
+                slow = slow.next;
+                stk.Push(slow.val);
+            }
+
+            // check twin sums
+            var maxSum = 0;
+            while (stk.Count > 0)
+            {
+                var sum = head.val + stk.Pop();
+                if (sum > maxSum)
+                    maxSum = sum;
+                head = head.next;
+            }
+
+            return maxSum;
+        }
+
+        // delete node in middle of linkedList
+        public ListNode DeleteMiddle(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return null;
+
+            // initialize pointers
+            ListNode prevSlow = null;
+            var slow = head;
+            var fast = head;
+
+            while (fast != null && fast.next != null)
+            {
+                prevSlow = slow;
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            prevSlow.next = slow.next;
 
             return head;
+        }
+
+        public ListNode MiddleNode(ListNode head)
+        {
+            var slow = head;
+            var fast = head;
+            while (fast != null && fast.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            return slow;
+        }
+
+        public ListNode SwapPairs(ListNode head)
+        {
+            var res = head;
+            SwapNext(head);
+            return res;
+        }
+        ListNode SwapNext(ListNode head)
+        {
+            if (head == null) return null;
+            if (head.next == null) return head;
+            //swap nodes
+            var tmp = head.val;
+            head.val = head.next.val;
+            head.next.val = tmp;
+
+            return SwapNext(head.next.next);
         }
 
         public void DeleteNode(ListNode node)
@@ -1529,6 +1650,8 @@ namespace UnitTestProjectLeetCode
                 }
             }
         }
+
+        
         /*
         public class ListNode
         {
@@ -1548,70 +1671,70 @@ namespace UnitTestProjectLeetCode
             int size;
 
             /** Initialize LinkedList here. */
-            /*public MyLinkedList()
-            {
-                head = new ListNode(0);
-                tail = new ListNode(0);
-                head.next = tail;
-                tail.pre = head;
-            }
+        /*public MyLinkedList()
+        {
+            head = new ListNode(0);
+            tail = new ListNode(0);
+            head.next = tail;
+            tail.pre = head;
+        }
 
-            /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
-            /*public int get(int index)
+        /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
+        /*public int get(int index)
+        {
+            if (index < 0 || index >= size) return -1;
+            ListNode curr = head;
+            for (int i = 0; i <= index; i++)
             {
-                if (index < 0 || index >= size) return -1;
-                ListNode curr = head;
-                for (int i = 0; i <= index; i++)
-                {
-                    curr = curr.next;
-                }
-                return curr.val;
+                curr = curr.next;
             }
+            return curr.val;
+        }
 
-            /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
-           /* public void addAtHead(int val)
+        /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
+        /* public void addAtHead(int val)
+         {
+             addAtIndex(0, val);
+         }
+
+         /** Append a node of value val to the last element of the linked list. */
+        /*public void addAtTail(int val)
+        {
+            addAtIndex(size, val);
+        }
+
+        /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
+        /*public void addAtIndex(int index, int val)
+        {
+            if (index < 0 || index > size) return;
+            ListNode curr = head;
+            for (int i = 0; i < index; i++)
             {
-                addAtIndex(0, val);
+                curr = curr.next;
             }
+            ListNode newNode = new ListNode(val);
+            newNode.next = curr.next;
+            newNode.next.pre = newNode;
+            curr.next = newNode;
+            newNode.pre = curr;
+            size++;
+        }
 
-            /** Append a node of value val to the last element of the linked list. */
-            /*public void addAtTail(int val)
+
+        /** Delete the index-th node in the linked list, if the index is valid. */
+        /*public void deleteAtIndex(int index)
+        {
+            if (index < 0 || index >= size) return;
+            ListNode curr = head;
+            for (int i = 0; i <= index; i++)
             {
-                addAtIndex(size, val);
+                curr = curr.next;
             }
-
-            /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
-            /*public void addAtIndex(int index, int val)
-            {
-                if (index < 0 || index > size) return;
-                ListNode curr = head;
-                for (int i = 0; i < index; i++)
-                {
-                    curr = curr.next;
-                }
-                ListNode newNode = new ListNode(val);
-                newNode.next = curr.next;
-                newNode.next.pre = newNode;
-                curr.next = newNode;
-                newNode.pre = curr;
-                size++;
-            }
-
-
-            /** Delete the index-th node in the linked list, if the index is valid. */
-            /*public void deleteAtIndex(int index)
-            {
-                if (index < 0 || index >= size) return;
-                ListNode curr = head;
-                for (int i = 0; i <= index; i++)
-                {
-                    curr = curr.next;
-                }
-                // delete curr;
-                curr.next.pre = curr.pre;
-                curr.pre.next = curr.next;
-                size--;
-            }
-        }*/
+            // delete curr;
+            curr.next.pre = curr.pre;
+            curr.pre.next = curr.next;
+            size--;
+        }
+    }*/
     }
 }

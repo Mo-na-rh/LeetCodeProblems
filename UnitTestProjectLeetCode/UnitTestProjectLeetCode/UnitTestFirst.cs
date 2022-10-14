@@ -1,10 +1,12 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace UnitTestProjectLeetCode
 {
     [TestClass]
-    public class UnitTestArrays
+    public class UnitTestFirst
     {
 
         [TestMethod]
@@ -16,7 +18,6 @@ namespace UnitTestProjectLeetCode
             Merge(ref nums1, 3, nums2, 3);
 
             Assert.AreEqual(5, nums1[4]);
-
         }
 
         [TestMethod]
@@ -262,8 +263,153 @@ namespace UnitTestProjectLeetCode
             Assert.AreEqual(1, k[1]);
         }
 
+        [TestMethod]
+        public void TestMethodIsExistSubArr()
+        {
+            int[] nums = new int[4] { -4, 0, 1, 3 };
+
+            var actual = IsExistSubArr(nums,1);
+
+            Assert.AreEqual(true, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodIsExistSubArr1()
+        {
+            int[] nums = new int[4] { -4, 0, 1, 3 };
+
+            var actual = IsExistSubArr(nums, 8);
+
+            Assert.AreEqual(false, actual);
+        }
 
 
+        [TestMethod]
+        public void TestMethodGetMaxCnt()
+        {
+            var arr = new int[7] { 1, 1, 9, 2, 2, 2, 6 };
+
+            var actual = GetMaxCnt(4, arr);
+
+            Assert.AreEqual(17, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodGetMaxCnt1()
+        {
+            var arr = new int[7] { 6, 1, 9, 2, 2, 2, 1 };
+
+            var actual = GetMaxCnt(1, arr);
+
+            Assert.AreEqual(6, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodGetMaxCnt3()
+        {
+            var arr = new int[2] { 6, 9 };
+
+            var actual = GetMaxCnt(2, arr);
+
+            Assert.AreEqual(15, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodGetMaxCnt4()
+        {
+            var arr = new int[2] { 6, 9 };
+
+            var actual = GetMaxCnt(1, arr);
+
+            Assert.AreEqual(9, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodGetMaxCnt5()
+        {
+            var arr = new int[0] {  };
+
+            var actual = GetMaxCnt(0, arr);
+
+            Assert.AreEqual(0, actual);
+        }
+
+        public static int GetMaxCnt(int k, int[] nums)
+        {
+            var maxSum = 0;
+            for (var l = 0; l <= k; l++)
+            {
+                var sum = 0;
+
+                for(var left = 0; left < l; left++)
+                {
+                    sum += nums[left];
+                }
+                    
+                for(var right = 1; right<=k-l; right++)
+                {
+                    sum += nums[nums.Length - right];
+                }   
+
+
+                if(maxSum <sum)
+                    maxSum = sum;
+
+            }
+            return maxSum;
+        }
+
+        public static int GetSum(int a, int b)
+        {
+            return a + b;
+        }
+
+        public bool IsExistSubArr(int[] nums, int target)
+        {
+            var l = 0;
+            var r = 1;
+            var sum = 0;
+
+            while(l< nums.Length-1)
+            {
+                sum = nums[l];
+                while(r<nums.Length && sum < target)
+                {
+                    sum += nums[r];
+                    if(sum==target) 
+                        return true;
+                    r++;
+                }
+
+                l++;
+                r = l + 1;
+            }
+
+            return false;
+        }
+
+        public IList<IList<int>> LevelOrder(TreeNode root)
+        {
+
+            var res = new List<List<int>>();
+
+
+            return (IList<IList<int>>)res;
+        }
+
+
+        public class TreeNode
+        {
+            public int val;
+            public TreeNode left;
+            public TreeNode right;
+            public TreeNode(int val = 0, TreeNode left = null, TreeNode right = null)
+            {
+                this.val = val;
+                this.left = left;
+                this.right = right;
+            }
+        }
 
         public int[] SortedSquares(int[] nums)
         {
@@ -325,6 +471,21 @@ namespace UnitTestProjectLeetCode
                 nums[i] = nums[i] * nums[i];
             }
             return nums;
+        }
+        public static int longestIncreasingSubsequence(List<int> arr)
+        {
+            int[] dp = new int[arr.Count];
+            int len = 0;
+
+            foreach (int x in arr)
+            {
+                int i = Array.BinarySearch(dp, 0, len, x);
+                if (i < 0) i = -(i + 1);
+                dp[i] = x;
+                if (i == len) len++;
+            }
+
+            return len;
         }
 
         public int GetThirdMax(int[] nums)

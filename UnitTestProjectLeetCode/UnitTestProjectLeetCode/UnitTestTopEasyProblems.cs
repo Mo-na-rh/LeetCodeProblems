@@ -84,6 +84,133 @@ namespace UnitTestProjectLeetCode
             Assert.AreEqual(true, res);
         }
 
+        [TestMethod]
+        public void TestMethodGetCountSteps()
+        {
+            var res = GetCountSteps(4);
+
+            Assert.AreEqual(1, res);
+        }
+
+        [TestMethod]
+        public void TestMethodGetCountSteps1()
+        {
+            var res = GetCountSteps(8);
+
+            Assert.AreEqual(3, res);
+        }
+
+        [TestMethod]
+        public void TestMethodGetCountSteps2()
+        {
+            var res = GetCountSteps(1);
+
+            Assert.AreEqual(1, res);
+        }
+
+        [TestMethod]
+        public void TestMethodFindErrorNums()
+        {
+            var nums = new int[2] { 1, 1};
+
+            var res = FindErrorNums(nums);
+
+            Assert.AreEqual(1, res[0]);
+            Assert.AreEqual(2, res[1]);
+        }
+
+        [TestMethod]
+        public void TestMethodFindErrorNums1()
+        {
+            var nums = new int[4] { 1, 2, 2, 4 };
+
+            var res = FindErrorNums(nums);
+
+            Assert.AreEqual(2, res[0]);
+            Assert.AreEqual(3, res[1]);
+        }
+
+        public int[] FindErrorNums(int[] nums)
+        {
+            var res = new int[2];
+
+            int dup = -1, missing = 1;
+            foreach (var num in nums)
+            {
+                if (nums[Math.Abs(num) - 1] < 0)
+                    dup = Math.Abs(num);
+                else
+                    nums[Math.Abs(num) - 1] *= -1;
+            }
+
+            for (int i = 1; i < nums.Length; i++)
+            {
+                if (nums[i] > 0)
+                    missing = i + 1;
+            }
+            res[0] = dup;
+            res[1] = missing;
+
+            // create dict and fill it nums 1 to n
+            // go along dict and if not found then missing and lst in dict return
+            /*var dict = new HashSet<int>();
+            for (var i = 1; i <= nums.Length; i++)
+            {
+                dict.Add(i);
+            }
+
+            foreach(var num in nums)
+            {
+                if(dict.Contains(num))
+                    dict.Remove(num);
+                else
+                    res[0]=num;
+            }
+            res[1]=dict.FirstOrDefault();*/
+
+            return res;
+        }
+
+        int GetCountSteps(int n)
+        {
+            if (n == 0 ) return n;
+            if(n == 1 || n == 2) return 1;
+
+            var prev = 1;
+            var next = 2;
+            var cnt =0;
+            while (true)
+            { 
+                var tmp = prev;
+                prev = next;
+                next = prev + tmp;
+                if (next > n)
+                    break;
+                cnt++;
+            }
+
+            return cnt;
+        }
+
+        int GetCountSteps1(int n)
+        {
+
+            var i = 0;
+            var sum = 0;
+            var cnt = 0;
+            while (true)
+            {
+                i++;
+                sum+=i;
+                
+                if(sum>n)
+                    break;
+                cnt++;
+            }
+
+            return cnt;
+        }
+
         public bool IsPalindrome(string s)
         {
             // first 
