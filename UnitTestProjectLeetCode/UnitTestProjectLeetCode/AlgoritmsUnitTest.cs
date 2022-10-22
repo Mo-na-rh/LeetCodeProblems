@@ -1,5 +1,10 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 
 namespace UnitTestProjectLeetCode
 {
@@ -192,6 +197,256 @@ namespace UnitTestProjectLeetCode
 
             var expected = new int[3] { 0, 0, 0 };
             CollectionAssert.AreEqual(expected, nums);
+        }
+
+        [TestMethod]
+        public void TestMethodTwoSum()
+        {
+            var nums = new int[4] { 2, 7, 11, 15 };
+
+            var actual = TwoSum(nums, 9);
+
+            var expected = new int[2] { 1, 2 };
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodTwoSum1()
+        {
+            var nums = new int[2] { -1,0 };
+
+            var actual = TwoSum(nums, -1);
+
+            var expected = new int[2] { 1, 2 };
+
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodReverseString()
+        {
+            var s = "Hello!";
+            var arr = s.ToCharArray();
+
+            ReverseString(arr);
+
+            var e = "!olleH";
+            var expected = new int[2] { 1, 2 };
+
+            CollectionAssert.AreEqual(arr, e.ToCharArray());
+        }
+
+        [TestMethod]
+        public void TestMethodReverseString2()
+        {
+            var s = "Hello";
+            var arr = s.ToCharArray();
+
+            ReverseString(arr);
+
+            var e = "olleH";
+            var expected = new int[2] { 1, 2 };
+
+            CollectionAssert.AreEqual(arr, e.ToCharArray());
+        }
+
+        [TestMethod]
+        public void TestMethodReverseString1()
+        {
+            var s = "H";
+            var arr = s.ToCharArray();
+
+            ReverseString(arr);
+
+            var e = "H";
+            var expected = new int[2] { 1, 2 };
+
+            CollectionAssert.AreEqual(arr, e.ToCharArray());
+        }
+
+        [TestMethod]
+        public void TestMethodReverseWords()
+        {
+            var s = "Let's take LeetCode contest";
+
+            var actual = ReverseWords(s);
+
+            var expected = "s'teL ekat edoCteeL tsetnoc";
+            Assert.AreEqual(actual, expected);
+        }
+
+        [TestMethod]
+        public void LengthOfLongestSubstring()
+        {
+            var s = "abcabcbb";
+
+            var actual = LengthOfLongestSubstring(s);
+
+            Assert.AreEqual(3, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodCheckInclusion()
+        {
+            var s1 = "ab";
+            var s2 = "eidbaooo";
+
+            var actual = CheckInclusion(s1, s2);
+
+            Assert.IsTrue(actual);
+        }
+
+        public bool CheckInclusion(string s1, string s2)
+        {
+            var dict2 = new Dictionary<char, int>();
+            foreach(var ch in s2)
+            {
+                if (!dict2.ContainsKey(ch))
+                {
+                    dict2.Add(ch, 1);
+                }
+                else
+                {
+                    dict2[ch]++;
+                }     
+            }
+
+            var l = 0;
+            var r = s2.Length - 1;
+
+            var dict1 = new Dictionary<char, int>();
+            for(var i = 0; i <= r; i++)
+            {
+                if (!dict1.ContainsKey(s1[i]))
+                {
+                    dict1.Add(s1[i], 1);
+                }
+                else
+                {
+                    dict1[s1[i]]++;
+                }
+            }
+            var isMatch=dict1.Count == dict2.Count && !dict1.Except(dict2).Any();
+
+
+            return false;
+        }
+
+        public int LengthOfLongestSubstring(string s)
+        {
+            int left = 0, right = 0;
+            
+            // initialize dictionary window
+            // будем следить чтоб в окне не  было повторяющихся символов
+            Dictionary<char, int> window = new Dictionary<char, int>();
+            int res = 0; // запись самой длинной длины
+            while (right < s.Length)
+            {
+                char c1 = s[right];
+                if (!window.ContainsKey(c1))
+                    window.Add(c1, 1);
+                else
+                    window[c1]++;
+                // увеличиваем окно вправо
+                right++;
+
+                // Если в окне появляются повторяющиеся символы
+                // начинаем двигаться влево, чтобы уменьшить окно
+                while (window[c1] > 1)
+                {
+                    // берём левый крайний символ 
+                    char c2 = s[left];
+                    window[c2]--;
+                    left++;
+                }
+                res = Math.Max(res, right - left);
+            }
+            return res;
+        }
+
+        public string ReverseWords(string s)
+        {
+            var words = s.Split(' ');
+            var sb = new StringBuilder();
+            for(var i=0;i<words.Length;i++)
+            {
+                var chars = words[i].ToCharArray();
+                ReverseString(chars);
+                sb.Append( new string(chars)+" ");
+            }
+
+            return sb.ToString().TrimEnd();
+        }
+
+        public void ReverseString(char[] s)
+        {
+            var r = 0;
+            var l = s.Length - 1;
+            while(r < l)
+            {
+                var tmp = s[r];
+                s[r]=s[l];
+                s[l]=tmp;
+                r++;
+                l--;
+            }
+        }
+
+        public int[] TwoSum(int[] numbers, int target)
+        {
+            var l = 0;
+            var r = numbers.Length - 1;
+            while (l < r)
+            {
+                var sum = numbers[l] + numbers[r];
+                if (sum == target)
+                {
+                    return new int[] { l + 1, r + 1 };
+                }
+                else if (sum < target)
+                {
+                    l++;
+                }
+                else
+                {
+                    r--;
+                }
+            }
+            return new int[2];
+
+            /*var ans = new int[2];
+
+            for(var i = 0; i < numbers.Length; i++)
+            {
+                // try binary search second item
+                var left = i+1;
+                var right = numbers.Length-1;
+                var t = target - numbers[i];
+
+                while (left < right)
+                {
+                    var middle = (right + left) / 2;
+
+                    if (numbers[middle] < t)
+                    {
+                        left = middle + 1;
+                    }
+                    else
+                    {
+                        right = middle;
+                    }
+                }
+
+                if (left<numbers.Length&&numbers[left] == t)
+                {
+                    ans[0] = i+1;
+                    ans[1] = left+1;
+                    return ans;
+                }
+            }
+
+            return ans;*/
         }
 
         public void MoveZeroes(ref int[] nums)

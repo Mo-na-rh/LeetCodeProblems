@@ -547,6 +547,51 @@ namespace UnitTestProjectLeetCode
             Assert.AreEqual(3, l1.next.val);
         }
 
+        [TestMethod]
+        public void TestMethodMiddleNode()
+        {
+            var l5 = new ListNode(5, null);
+            var l4 = new ListNode(4, l5);
+            var l3 = new ListNode(3, l4);
+            var l2 = new ListNode(2, l3);
+            var l1 = new ListNode(1, l2);
+
+            var actual =  MiddleNode(l1);
+
+            Assert.AreEqual(3, actual.val);
+        }
+
+        [TestMethod]
+        public void TestMethodMiddleNode1()
+        {
+
+            var l4 = new ListNode(4, null);
+            var l3 = new ListNode(3, l4);
+            var l2 = new ListNode(2, l3);
+            var l1 = new ListNode(1, l2);
+
+            var actual = MiddleNode(l1);
+
+            Assert.AreEqual(3, actual.val);
+        }
+
+        public ListNode MiddleNode(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return head;
+
+            var slow = head;
+            var fast = head;
+
+            while (fast != null && fast.next != null)
+            {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            return slow;
+        }
+
         public void DeleteNode(ListNode node)
         {
             node.val = node.next.val;
