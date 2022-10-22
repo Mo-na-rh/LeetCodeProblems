@@ -1,144 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTestProjectLeetCode
+namespace UnitTestLeetCodeProjects
 {
-    public class Test1
-    {
-        static void Main()
-        {
-            string[] array = Console.ReadLine().Split(' ');
-            int a = int.Parse(array[0]);
-            var cost = new int[a];
-            for (int i = 0; i < cost.Length; i++)
-            {
-                cost[i] = int.Parse(array[i + 1]);
-            }
-
-            //int[] b = BuyAndSell(arr);
-
-            var ans = new int[2];
-            var bestBuyDay = 0;
-            var bestSellDay = 0;
-            var minCostDay = 0;
-
-            for (int i = 1; i < cost.Length; i++)
-            {
-                if (cost[bestSellDay] * cost[minCostDay] < cost[bestBuyDay] * cost[i])
-                {
-                    bestBuyDay = minCostDay;
-                    bestSellDay = i;
-                }
-                if (cost[i] < cost[minCostDay])
-                    minCostDay = i;
-            }
-            if (bestBuyDay == 0 && bestSellDay == 0)
-                Console.WriteLine(0 + ' ' + 0);
-            else
-                Console.WriteLine(bestBuyDay + 1 + ' ' + bestSellDay+1);
-        }
-
-        static int[] BuyAndSell(int[] cost)
-        {
-            var ans = new int[2];
-
-
-                return ans;
-        }
-    }
-
-
-    public class Solution
-    {
-        static void Main()
-        {
-            int.TryParse(Console.ReadLine(), out int n);
-
-            var result = GetCountSteps(n);
-
-            Console.WriteLine(result);
-        }
-
-        static int GetCountSteps(int n)
-        {
-            var cnt = 0;
-            var byStep = 1;
-            while (cnt < n)
-            {
-                cnt += byStep;
-                byStep += 1;
-            }
-
-            return cnt;
-        }
-    }
-
-    public class Solution1
-    {
-        static void Main(string[] args)
-        {
-
-            int.TryParse(Console.ReadLine(), out int n);
-            int.TryParse(Console.ReadLine(), out int stepCnt);
-
-            int[] arr = new int[n];
-            var i = 0;
-            Console.WriteLine("Введите массив:");
-            string[] str = Console.ReadLine().Split(new char[] { ' ', '\n', '\t' }, StringSplitOptions.RemoveEmptyEntries);
-            for (i = 0; i < (n < str.Length ? n : str.Length); ++i)
-                arr[i] = Convert.ToInt32(str[i]);
-
-            var result = GetMaxCnt(stepCnt,arr);
-
-            Console.WriteLine(result);
-
-        }
-
-        public static int GetCountSteps(int n)
-        {
-            var cnt = 0;
-            var byStep = 1;
-            while (cnt < n)
-            {
-                cnt += byStep;
-                byStep += 1;
-            }
-
-            return cnt;
-        }
-
-        public static int GetMaxCnt(int stepCnt, int[] nums)
-        {
-            var l = 0;
-            var r = nums.Length-1;
-            var indx = 0;
-            var sum = 0;
-            while (indx < stepCnt && indx < nums.Length)
-            {
-                if(nums[l] < nums[r])
-                {
-                    sum += nums[r];
-                    r--;
-                }
-                else
-                {
-                    sum += nums[l];
-                    l++;
-                }
-                    
-            }
-
-
-            return 0;
-        }
-    }
-
-
-
     [TestClass]
-    public class UnitTestArrays1
+    public class UnitTestArrays
     {
 
         [TestMethod]
@@ -150,7 +19,6 @@ namespace UnitTestProjectLeetCode
             Merge(ref nums1, 3, nums2, 3);
 
             Assert.AreEqual(5, nums1[4]);
-
         }
 
         [TestMethod]
@@ -162,7 +30,6 @@ namespace UnitTestProjectLeetCode
             Merge(ref nums1, 1, nums2, 0);
 
             Assert.AreEqual(1, nums1[0]);
-
         }
 
         [TestMethod]
@@ -174,7 +41,6 @@ namespace UnitTestProjectLeetCode
             Merge(ref nums1, 0, nums2, 1);
 
             Assert.AreEqual(1, nums1[0]);
-
         }
 
         [TestMethod]
@@ -186,8 +52,9 @@ namespace UnitTestProjectLeetCode
 
             //Assert.AreEqual(true, flag);
 
-            //int[] nums2 = new int[8] { 0, 2, 3, 3, 5,2,1,0 };
-            int[] nums2 = new int[3] { 3,5,5 };
+            //int[] nums2 = new int[8] { 0, 2, 3, 3, 5, 2, 1, 0 };
+
+            int[] nums2 = new int[3] { 3, 5, 5 };
 
             var flag1 = ShouldReturnFlag(nums2);
 
@@ -207,7 +74,7 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void ExistArr_Check_ReturnFlag2()
         {
-            int[] nums2 = new int[5] { 0,1, 2,1,8};
+            int[] nums2 = new int[5] { 0, 1, 2,1,8};
 
             var flag1 = ShouldReturnFlag(nums2);
 
@@ -331,7 +198,7 @@ namespace UnitTestProjectLeetCode
 
             var k = SortedSquares(nums);
 
-            Assert.AreEqual(9, k[2]);
+            Assert.AreEqual(1, k[1]);
         }
 
         [TestMethod]
@@ -395,6 +262,100 @@ namespace UnitTestProjectLeetCode
             var k = TwoSum(nums, target);
 
             Assert.AreEqual(0, k[0]);
+        }
+
+        [TestMethod]
+        public void ExistArr_Check_ShouldReturnMaxProfit()
+        {
+            int[] nums = new int[6] { 7, 1, 5, 3, 6, 4 };
+
+            var actual = MaxProfit(nums);
+
+            Assert.AreEqual(5, actual);
+        }
+
+        [TestMethod]
+        public void ExistThreeNums_GetMedian()
+        {
+            var actual = GetMedian(1,2,3);
+
+            Assert.AreEqual(2, actual);
+        }
+
+        [TestMethod]
+        public void ExistThreeNums_GetMedian1()
+        {
+            var actual = GetMedian(3, 2, 2);
+
+            Assert.AreEqual(2, actual);
+        }
+
+        [TestMethod]
+        public void ExistThreeNums_GetMedian2()
+        {
+            var actual = GetMedian(2, 1, 3);
+
+            Assert.AreEqual(2, actual);
+        }
+
+        [TestMethod]
+        public void ExistThreeNums_ReverseWordOrder()
+        {
+            var actual = Reverse("cats are funny");
+
+            Assert.AreEqual("funny are cats", actual);
+        }
+
+        public string Reverse(string str)
+        {
+            var arr = str.Split(' ');
+            var sb = new StringBuilder();
+            for (var i = arr.Length - 1; i >= 0; i--)
+            {
+                sb.Append(arr[i]);
+                sb.Append(' ');
+            }
+            return sb.ToString().Trim();
+        }
+
+        public int MaxProfit(int[] prices)
+        {
+            /*
+            var sum = 0;
+            var q = new Queue<int>(prices);
+            while (q.Count > 1)
+            {
+                var cur = q.Dequeue();
+                var max = q.ToArray().Max();
+
+                if (max - cur > sum)
+                    sum = max - cur;
+            }
+            
+            return sum;
+            */
+
+            var sum = 0;
+            var indx = 0;
+
+            var min = int.MaxValue;
+            var max = 0;
+
+            while (indx < prices.Length-1)
+            {
+                if (min > prices[indx])
+                    min = prices[indx];
+
+                if (max < prices[indx + 1])
+                    max = prices[indx + 1];
+
+                if (max - min > sum)
+                    sum = max - min;
+
+                indx++;
+            }
+
+            return sum;
         }
 
         public int[] TwoSum(int[] nums, int target)
@@ -516,7 +477,7 @@ namespace UnitTestProjectLeetCode
 
 
 
-            public IList<int> FindDisappearedNumbers(int[] nums)
+        public IList<int> FindDisappearedNumbers(int[] nums)
         {
             /*
              Дано входной массив с числами принадлежащими 1..nums.Length
@@ -680,9 +641,34 @@ namespace UnitTestProjectLeetCode
                     right--;
                 }
             }*/
-            return nums;
+            //return nums;
+            return new int[0];
         }
 
+        public int GetMedian(int x1, int x2, int x3)
+        {
+            // x1 middle
+            if (x1 > x2)
+            {
+                var tmp = x2;
+                x2 = x1;
+                x1 = tmp;
+            };
+            if (x2 > x3)
+            {
+                var tmp = x2;
+                x2 = x3;
+                x3 = x2;
+            };
+            if (x1 > x2)
+            {
+                var tmp = x1;
+                x1 = x2;
+                x2 = tmp;
+            };
+
+            return x2;
+        }
 
 
         public bool ShouldReturnFlag(int[] arr)
