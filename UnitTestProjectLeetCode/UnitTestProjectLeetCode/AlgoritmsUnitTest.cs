@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace UnitTestProjectLeetCode
@@ -297,40 +298,420 @@ namespace UnitTestProjectLeetCode
             Assert.IsTrue(actual);
         }
 
+        [TestMethod]
+        public void TestMethodFloodFill()
+        {
+            // input  image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, color = 2
+            // output [[2,2,2],[2,2,0],[2,0,1]]
+            var img = new int[3][];
+            img[0]= new int[3] {1, 1, 1};
+            img[1] = new int[3] { 1, 1, 0 };
+            img[2] = new int[3] { 1, 0, 1 };
+
+            var sr = 1;
+            var sc = 1;
+            var color = 2;
+
+            var actual = FloodFill(img, sr, sc, color);
+
+            Assert.AreEqual(2, actual[0][0]);
+        }
+
+        [TestMethod]
+        public void TestMethodSingleNumber()
+        {
+            var nums = new int[3] {2,2,1};
+
+            var actual = SingleNumber(nums);
+
+            Assert.AreEqual(1,actual);
+        }
+
+        //[TestMethod]
+        //public void TestMethodHammingWeight()
+        //{
+        //    uint n = 00000000000000000000000000001011;
+
+        //    var actual = HammingWeight(n);
+
+        //    Assert.AreEqual(3, actual);
+        //}
+
+        [TestMethod]
+        public void TestMethodIsPowerOfTwo()
+        {
+            int n = 1;
+
+            var actual = IsPowerOfTwo(n);
+
+            Assert.IsTrue(actual);
+        }
+
+        [TestMethod]
+        public void TestMethodIsPowerOfTwo1()
+        {
+            int n = 4;
+
+            var actual = IsPowerOfTwo(n);
+
+            Assert.IsTrue(actual);
+        }
+
+        [TestMethod]
+        public void TestMethodIsPowerOfTwo2()
+        {
+            int n = 3;
+
+            var actual = IsPowerOfTwo(n);
+
+            Assert.IsFalse(actual);
+        }
+
+        [TestMethod]
+        public void TestMethodClimbStairs()
+        {
+            int n = 2;
+
+            var actual = ClimbStairs(n);
+
+            Assert.AreEqual(2,actual);
+        }
+
+
+        [TestMethod]
+        public void TestMethodClimbStairs1()
+        {
+            int n = 5;
+
+            var actual = ClimbStairs(n);
+
+            Assert.AreEqual(8, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodHouseRobber()
+        {
+            int[] nums = new int[4] { 1, 2, 3, 1 };
+
+            var actual = Rob(nums);
+
+            Assert.AreEqual(4, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodHouseRobber1()
+        {
+            int[] nums = new int[5] { 2, 7, 9, 3, 1 };
+
+            var actual = Rob(nums);
+
+            Assert.AreEqual(12, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodHouseRobber3()
+        {
+            int[] nums = new int[4] { 2, 1, 1, 2 };
+
+            var actual = RobN(nums);
+
+            Assert.AreEqual(4, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodLongestPalindrome1()
+        {
+            var s = "ac";
+
+            var actual = LongestPalindrome(s);
+
+            Assert.AreEqual("a", actual);
+        }
+
+        [TestMethod]
+        public void TestMethodLongestPalindrome2()
+        {
+            var s = "abb";
+
+            var actual = LongestPalindrome(s);
+
+            Assert.AreEqual("bb", actual);
+        }
+
+        public string LongestPalindrome(string s)
+        {
+            var s1 = Reverse(s);
+            var len = 0;
+            var sb = new StringBuilder();
+
+            // check classic palindrom
+            var res = string.Empty;
+            var maxLen = 0;
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (s[i] == s1[i])
+                {
+                    sb.Append(s[i]);
+                    len++;
+                }
+                else
+                {
+                    if (len > maxLen)
+                    {
+                        maxLen = len;
+                        res = sb.ToString();
+                    }
+                    sb.Clear();
+                    len = 0;
+                }
+            }
+
+            if (len > maxLen)
+            {
+                maxLen = len;
+                res = sb.ToString();
+            }
+
+            // check dublicate chars
+            sb.Clear();
+            var dupCount = 0;
+            var chr = '!';
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (chr == s[i])
+                {
+                    sb.Append(s[i]);
+                    dupCount++;
+                }
+                else
+                { 
+
+                }
+            }
+
+            if (res == string.Empty)
+                res = s[0].ToString();
+
+            return res;
+        }
+
+        string Reverse(string s)
+        {
+            char[] charArray = s.ToCharArray();
+            Array.Reverse(charArray);
+            return new string(charArray);
+        }
+
+        int RobN(int[] nums)
+        {
+            if (nums.Length == 1)
+                return nums[0];
+
+            if (nums.Length == 2)
+                return Math.Max(nums[0], nums[1]);
+
+            var ans = 0;
+
+            var i = 0;
+
+            // first sum
+            var rob = nums[0] + nums[2];
+
+            // second sum
+            var norob = nums[1];
+
+            while (i < nums.Length)
+            {
+                rob = nums[i];
+
+
+                i+=2;
+            }
+
+            return Math.Max(rob,norob);
+        }
+
+
+        //int robFive(int h1, int h2, int h3, int h4, int h5)
+        //{
+        //    var four = RobFour(h1, h2, h3, h4);
+        //    var four2 = h1 + RobFour(h2, h3, h4, h5);
+        //    return RobTwo(four, h1 + h4);
+        //}
+
+        //int RobFour(int h1, int h2, int h3, int h4)
+        //{
+        //    var two = RobTwo(h1 + h3, h2 + h4);
+        //    return RobTwo(two, h1 + h4);
+        //}
+
+        int RobThree(int h1, int h2, int h3)
+        {
+            var sum = h1 + h3;
+
+            return RobTwo(sum, h2);
+        }
+
+        int RobTwo(int h1, int h2)
+        {
+            return Math.Max(h1, h2);
+        }
+
+        public int Rob(int[] nums)
+        {
+            var ans1 = 0;
+            var ans2 = 0;
+
+            var rob = 0;
+            var norob = 0;
+
+            for (var i = 0; i < nums.Length; i+=2)
+            {
+                rob = nums[i];
+                norob = Math.Max(rob, norob);// (i+1) < nums.Length?nums[i+1]:0;
+
+                ans1 += rob;
+                ans2 += Math.Max(rob,norob);
+            }
+
+            return Math.Max(ans1,ans2);
+        }
+
+        public int ClimbStairs(int n)
+        {
+            // base case
+            if (n == 0 | n == 1 | n == 2)
+                return n;
+            var dict = new Dictionary<int, int>();
+            // recurrency relation
+            var ans = 0;
+            ans += ClimbStairs1(n-1, dict) + ClimbStairs1(n-2, dict);
+            return ans;
+        }
+
+        int ClimbStairs1(int n, Dictionary<int, int> dict)
+        {
+            // base case
+            if (n == 0 | n == 1 | n == 2)
+                return n;
+
+            if (dict.ContainsKey(n))
+                return dict[n];
+
+            // recurrency relation
+            var ans = 0;
+            ans += ClimbStairs(n - 1) + ClimbStairs(n - 2);
+            dict.Add(n, ans);
+
+            return ans;
+        }
+
+        public bool IsPowerOfTwo(int n)
+        {
+            if (n == 0 || n == 1)
+                return true;
+
+            var str = ToBin(n);
+            for(var i = 1; i < str.Length; i++)
+            {
+                if (str[i] == '1')
+                    return false;
+            }
+            return true;
+        }
+        string ToBin(int n)
+        {
+            return string.Format("{0}{1}", n < 0 ? "-" : "", Convert.ToString(Math.Abs(n), 2));
+        }
+
+        public int HammingWeight(uint n)
+        {
+            int ans = 0;
+            while (n > 0)
+            {
+                n = n & (n - 1);
+                ans++; ;
+            }
+            return ans;
+        }
+
+        public int SingleNumber(int[] nums)
+        {
+            var res = 0;
+            foreach (var num in nums)
+                res ^= num;
+            return res;
+        }
+
+        public int[][] FloodFill(int[][] image, int sr, int sc, int color)
+        {
+            int oldColor = image[sr][sc];
+            if (oldColor != color) 
+                dfs(image, sr, sc, oldColor, color);
+            return image;
+        }
+
+        public void dfs(int[][] image, int r, int c, int color, int newColor)
+        {
+            if (image[r][c] == color)
+            {
+                image[r][c] = newColor;
+                if (r >= 1) 
+                    dfs(image, r - 1, c, color, newColor);
+                if (c >= 1) 
+                    dfs(image, r, c - 1, color, newColor);
+
+                if (r + 1 < image.Length) 
+                    dfs(image, r + 1, c, color, newColor);
+                if (c + 1 < image[0].Length) 
+                    dfs(image, r, c + 1, color, newColor);
+            }
+        }
+
         public bool CheckInclusion(string s1, string s2)
         {
-            var dict2 = new Dictionary<char, int>();
-            foreach(var ch in s2)
+            if (s1.Length > s2.Length)
+                return false;
+            int[] s1map = new int[26];
+            int[] s2map = new int[26];
+            for (int i = 0; i < s1.Length; i++)
             {
-                if (!dict2.ContainsKey(ch))
-                {
-                    dict2.Add(ch, 1);
-                }
-                else
-                {
-                    dict2[ch]++;
-                }     
+                s1map[s1[i] - 'a']++;
+                s2map[s2[i] - 'a']++;
             }
 
-            var l = 0;
-            var r = s2.Length - 1;
-
-            var dict1 = new Dictionary<char, int>();
-            for(var i = 0; i <= r; i++)
+            int count = 0;
+            for (int i = 0; i < 26; i++)
             {
-                if (!dict1.ContainsKey(s1[i]))
+                if (s1map[i] == s2map[i])
+                    count++;
+            }
+
+            for (int i = 0; i < s2.Length - s1.Length; i++)
+            {
+                int r = s2[i + s1.Length] - 'a', l = s2[i] - 'a';
+                if (count == 26)
+                    return true;
+                s2map[r]++;
+                if (s2map[r] == s1map[r])
                 {
-                    dict1.Add(s1[i], 1);
+                    count++;
                 }
-                else
+                else if (s2map[r] == s1map[r] + 1)
                 {
-                    dict1[s1[i]]++;
+                    count--;
+                }
+                s2map[l]--;
+                if (s2map[l] == s1map[l])
+                {
+                    count++;
+                }
+                else if (s2map[l] == s1map[l] - 1)
+                {
+                    count--;
                 }
             }
-            var isMatch=dict1.Count == dict2.Count && !dict1.Except(dict2).Any();
-
-
-            return false;
+            return count == 26;
         }
 
         public int LengthOfLongestSubstring(string s)

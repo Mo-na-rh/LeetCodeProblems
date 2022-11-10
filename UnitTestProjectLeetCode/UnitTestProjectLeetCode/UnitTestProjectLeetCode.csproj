@@ -67,11 +67,9 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
+    <Compile Include="UnitTestHardProblems.cs" />
     <Compile Include="UnitTestMiddleProblems.cs" />
-=======
     <Compile Include="AlgoritmsUnitTest.cs" />
->>>>>>> 3177ec174c0c4955ca38f86db9e8d39aef3675c2
     <Compile Include="UnitTestFirst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestArrays.cs" />
