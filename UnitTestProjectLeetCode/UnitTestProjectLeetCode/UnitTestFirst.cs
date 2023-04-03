@@ -1,7 +1,7 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace UnitTestProjectLeetCode
 {
@@ -35,7 +35,7 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void ShouldReturnRes2()
         {
-            int[] nums1 = new int[1] ;
+            int[] nums1 = new int[1];
             int[] nums2 = new int[1] { 1 };
 
             Merge(ref nums1, 0, nums2, 1);
@@ -54,7 +54,7 @@ namespace UnitTestProjectLeetCode
             //Assert.AreEqual(true, flag);
 
             //int[] nums2 = new int[8] { 0, 2, 3, 3, 5,2,1,0 };
-            int[] nums2 = new int[3] { 3,5,5 };
+            int[] nums2 = new int[3] { 3, 5, 5 };
 
             var flag1 = ShouldReturnFlag(nums2);
 
@@ -74,7 +74,7 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void ExistArr_Check_ReturnFlag2()
         {
-            int[] nums2 = new int[5] { 0,1, 2,1,8};
+            int[] nums2 = new int[5] { 0, 1, 2, 1, 8 };
 
             var flag1 = ShouldReturnFlag(nums2);
 
@@ -114,7 +114,7 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void ExistArr_Check_ReturnOrder3()
         {
-            int[] nums2 = new int[3] { 1,0,3 };
+            int[] nums2 = new int[3] { 1, 0, 3 };
 
             var k = ShouldReturnParityArray(nums2);
 
@@ -268,7 +268,7 @@ namespace UnitTestProjectLeetCode
         {
             int[] nums = new int[4] { -4, 0, 1, 3 };
 
-            var actual = IsExistSubArr(nums,1);
+            var actual = IsExistSubArr(nums, 1);
 
             Assert.AreEqual(true, actual);
         }
@@ -327,12 +327,34 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void TestMethodGetMaxCnt5()
         {
-            var arr = new int[0] {  };
+            var arr = new int[0] { };
 
             var actual = GetMaxCnt(0, arr);
 
             Assert.AreEqual(0, actual);
         }
+
+        [TestMethod]
+        public void TestMethodCheckIfFileIsHidden()
+        {
+            // arrange
+            var fPath = "//vsp2/company/Docs/Sminex/Обыденский 1/Project Files/00. Политика конфиденциальности/ЦУК45872354234.xlsx";
+
+            // act
+            var actual = File.Exists(fPath);//CheckIfHidden(fPath);
+
+            // assert
+            Assert.AreEqual(false, actual);
+        }
+
+        private bool CheckIfHidden(string fPath)
+        {
+            if (File.Exists(fPath))
+                return (File.GetAttributes(fPath) & FileAttributes.Hidden) == FileAttributes.Hidden;
+            else
+                return false;
+        }
+
 
         public static int GetMaxCnt(int k, int[] nums)
         {
@@ -341,18 +363,18 @@ namespace UnitTestProjectLeetCode
             {
                 var sum = 0;
 
-                for(var left = 0; left < l; left++)
+                for (var left = 0; left < l; left++)
                 {
                     sum += nums[left];
                 }
-                    
-                for(var right = 1; right<=k-l; right++)
+
+                for (var right = 1; right <= k - l; right++)
                 {
                     sum += nums[nums.Length - right];
-                }   
+                }
 
 
-                if(maxSum <sum)
+                if (maxSum < sum)
                     maxSum = sum;
 
             }
@@ -370,13 +392,13 @@ namespace UnitTestProjectLeetCode
             var r = 1;
             var sum = 0;
 
-            while(l< nums.Length-1)
+            while (l < nums.Length - 1)
             {
                 sum = nums[l];
-                while(r<nums.Length && sum < target)
+                while (r < nums.Length && sum < target)
                 {
                     sum += nums[r];
-                    if(sum==target) 
+                    if (sum == target)
                         return true;
                     r++;
                 }
@@ -426,7 +448,7 @@ namespace UnitTestProjectLeetCode
                     right--;
                 }
             }
-            else   
+            else
             {
                 while (left <= right)
                 {
@@ -437,16 +459,16 @@ namespace UnitTestProjectLeetCode
                         nums[right] = tmp;
 
                         //right--;
-                       /*if (nums[right] > 0 && nums[left] > 0)
-                            left++;
-                        else */
-                            right--;   
+                        /*if (nums[right] > 0 && nums[left] > 0)
+                             left++;
+                         else */
+                        right--;
                     }
-                    else if (nums[right]<=0)
+                    else if (nums[right] <= 0)
                     {
                         left++;
                     }
-                    else if (nums[right]>0)
+                    else if (nums[right] > 0)
                     {
                         right--;
 
@@ -455,7 +477,7 @@ namespace UnitTestProjectLeetCode
 
                 for (int i = 0; i < nums.Length; i++)
                 {
-                    if (i + 1 == nums.Length) break; 
+                    if (i + 1 == nums.Length) break;
                     if (Math.Abs(nums[i]) > Math.Abs(nums[i + 1]))
                     {
                         var tmp = nums[i];
@@ -464,7 +486,7 @@ namespace UnitTestProjectLeetCode
                     }
                 }
             }
-            
+
 
             for (int i = 0; i < nums.Length; i++)
             {
@@ -527,7 +549,7 @@ namespace UnitTestProjectLeetCode
             Array.Sort(arr);
             for (int i = 0; i < heights.Length; i++)
             {
-                if(arr[i] != heights[i]) unMatchCnt++;
+                if (arr[i] != heights[i]) unMatchCnt++;
             }
 
             return unMatchCnt;
@@ -544,11 +566,11 @@ namespace UnitTestProjectLeetCode
             var right = nums.Length - 1;
             while (true)
             {
-                while (left<right&&nums[left]%2==0)  
+                while (left < right && nums[left] % 2 == 0)
                     left++;
-                while (right>left && nums[right] % 2 != 0) 
+                while (right > left && nums[right] % 2 != 0)
                     right--;
-                if (left==right)
+                if (left == right)
                     break;
 
                 var rVal = nums[right];
@@ -605,7 +627,7 @@ namespace UnitTestProjectLeetCode
 
         public bool ShouldReturnFlag(int[] arr)
         {
-            if ((arr == null || arr.Length < 3)||(arr[0] - arr[1] > 0)) return false;
+            if ((arr == null || arr.Length < 3) || (arr[0] - arr[1] > 0)) return false;
 
             var flag = false;
             for (int i = 1; i < arr.Length; i++)
@@ -664,7 +686,7 @@ namespace UnitTestProjectLeetCode
                     }
                 }
 
-                
+
             }
         }
     }

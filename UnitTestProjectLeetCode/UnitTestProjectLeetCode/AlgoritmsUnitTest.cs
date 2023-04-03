@@ -438,6 +438,27 @@ namespace UnitTestProjectLeetCode
             Assert.AreEqual("bb", actual);
         }
 
+        [TestMethod]
+        public void TestMethodLongestPalindrome3()
+        {
+            var s = "abb";
+
+            var actual = LongestPalindrome(s);
+
+            Assert.AreEqual("bb", actual);
+        }
+
+        public IList<IList<string>> Partition(string s)
+        {
+            var res = new List<IList<string>>();
+            /*
+             
+             задача разделить строки 
+
+            */
+            return res;
+        }
+
         public string LongestPalindrome(string s)
         {
             var s1 = Reverse(s);

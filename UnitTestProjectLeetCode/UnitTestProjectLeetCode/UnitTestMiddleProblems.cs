@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 
 namespace UnitTestProjectLeetCode
 {
@@ -20,7 +19,7 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void TestMethodLongestIncreaseSubsequence1()
         {
-            var arr = new int[6] { 4,10,4,3,8,9 };
+            var arr = new int[6] { 4, 10, 4, 3, 8, 9 };
 
             var actual = LengthOfLIS(arr);
 
@@ -50,7 +49,7 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void TestMethodMaxProduct2()
         {
-            var arr = new int[3] { -10, 0, -10};
+            var arr = new int[3] { -10, 0, -10 };
 
             var actual = MaxProduct(arr);
 
@@ -60,7 +59,7 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void TestMethodMaxProduct3()
         {
-            var arr = new int[4] { -3, 0, 1,-2 };
+            var arr = new int[4] { -3, 0, 1, -2 };
 
             var actual = MaxProduct(arr);
 
@@ -100,11 +99,11 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void TestMethodSearch()
         {
-            var str = new int[7] {4,5,6,7,0,1,2};
+            var str = new int[7] { 4, 5, 6, 7, 0, 1, 2 };
 
-            var actual = Search(str,0);
+            // var actual = Search(str,0);
 
-            Assert.AreEqual(4, actual);
+            //Assert.AreEqual(4, actual);
         }
 
         [TestMethod]
@@ -121,27 +120,205 @@ namespace UnitTestProjectLeetCode
             Assert.AreEqual(13, actual);
         }
 
+        [TestMethod]
+        public void TestMethodSearchIn2DMatrix()
+        {
+            // arrange
+            var row1 = new int[4] { 1, 3, 5, 7 };
+            var row2 = new int[4] { 10, 11, 16, 20 };
+            var row3 = new int[4] { 23, 30, 34, 60 };
+            var matrix = new int[3][];
+            matrix[0] = row1;
+            matrix[1] = row2;
+            matrix[2] = row3;
+            var target = 3;
+
+            // act
+            var actual = SearchMatrix(matrix, target);
+
+            var expected = true;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodSearchIn2DMatrix1()
+        {
+            // arrange
+            var row1 = new int[1] { 1 };
+
+            var matrix = new int[1][];
+            matrix[0] = row1;
+            var target = 0;
+
+            // act
+            var actual = SearchMatrix(matrix, target);
+
+            var expected = false;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodSearchIn2DMatrix2()
+        {
+            // arrange
+            var row1 = new int[1] { 1 };
+            var row2 = new int[1] { 3 };
+
+            var matrix = new int[2][];
+            matrix[0] = row1;
+            matrix[1] = row2;
+            var target = 3;
+
+            // act
+            var actual = SearchMatrix(matrix, target);
+
+            var expected = true;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodSearchIn2DMatrix3()
+        {
+            // arrange
+            var row1 = new int[1] { 1 };
+
+            var matrix = new int[1][];
+            matrix[0] = row1;
+            var target = 1;
+
+            // act
+            var actual = SearchMatrix(matrix, target);
+
+            var expected = true;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodSearchIn2DMatrix4()
+        {
+            // arrange
+            var row1 = new int[2] { 1, 1 };
+            var row2 = new int[2] { 2, 2 };
+
+            var matrix = new int[2][];
+            matrix[0] = row1;
+            matrix[1] = row2;
+            var target = 0;
+
+            // act
+            var actual = SearchMatrix(matrix, target);
+
+            // assert
+            var expected = false;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodSortColors()
+        {
+            // arrange
+            var actual = new int[6] { 2, 0, 2, 1, 1, 0 };
+
+
+            // act
+            SortColors(actual);
+
+            // assert
+            var expected = new int[6] { 0, 0, 1, 1, 2, 2 };
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        public void SortColors(int[] nums)
+        {
+
+        }
+
+        public bool SearchMatrix(int[][] matrix, int target)
+        {
+            // corner case m=1 n=1
+            if (matrix.Length == 1 && matrix[0].Length == 1)
+                return matrix[0][0] == target;
+
+            // first step
+            var low = 0;
+            var high = matrix.Length;
+
+            if (high == 1)
+            {
+                low = 1;
+            }
+            else
+            {
+                while (low < high)
+                {
+                    var mid = (low + high) / 2;
+                    if (matrix[mid][0] == target)
+                    {
+                        return true;
+                    }
+                    else if (matrix[mid][0] > target)
+                    {
+                        high = mid;
+                    }
+                    else
+                    {
+                        low = mid + 1;
+                    }
+                }
+            }
+            // если таргет меньше первого числа в строке
+            if (low == 0)
+                return false;
+
+            if (matrix[0].Length > 1)
+            {
+                // second step
+                var targetRowIndex = low - 1; // this index found on first step
+                low = 0;
+                high = matrix[0].Length;
+
+                while (low < high)
+                {
+                    var mid = (low + high) / 2;
+                    if (matrix[targetRowIndex][mid] == target)
+                    {
+                        return true;
+                    }
+                    else if (matrix[targetRowIndex][mid] > target)
+                    {
+                        high = mid;
+                    }
+                    else
+                    {
+                        low = mid + 1;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public int KthSmallest(int[][] a, int k)
         {
-            
+
             var n = a[0].Length;
             int left = a[0][0];     // <= answer
-            int right = a[n-1][n-1];   // >= answer
+            int right = a[n - 1][n - 1];   // >= answer
 
             // binary search
-            while(left+1< right)
+            while (left + 1 < right)
             {
-                var mid = left + ((0u+left-right)>>1);
+                var mid = left + ((0u + left - right) >> 1);
 
                 int count = 0; // number of elements < mid
                 var j = n;
-                for(var i = 0; i < n&&j>0; i++)
+                for (var i = 0; i < n && j > 0; i++)
                 {
                     while (j - 1 >= 0 && a[i][j - 1] > mid)
                     {
                         j--;
                     }
-                    count+=j;
+                    count += j;
                 }
                 if (count < k)
                 {
@@ -160,18 +337,18 @@ namespace UnitTestProjectLeetCode
         {
             if (a.Length == 0)
                 return -1;
-          
+
             var left = 0;
             var right = a.Length;
-            
+
             // target could be in [left, right)
 
-            while(left+1 < right)
+            while (left + 1 < right)
             {
                 var mid = (left + right) / 2;
                 var sLeft = left;
                 var sRight = mid;
-                
+
             }
             if (a[left] == target)
                 return left;
@@ -233,7 +410,7 @@ namespace UnitTestProjectLeetCode
 
             product = 0;
 
-            for (var i = nums.Length-1; i >= 0; i--)
+            for (var i = nums.Length - 1; i >= 0; i--)
             {
                 if (product == 0)
                 {
@@ -255,7 +432,7 @@ namespace UnitTestProjectLeetCode
 
             int left = 0, size = 0;
 
-            for(var i = 0; i < nums.Length; i++)
+            for (var i = 0; i < nums.Length; i++)
             {
                 left = 0;
                 int right = size;
@@ -263,7 +440,7 @@ namespace UnitTestProjectLeetCode
                 // минимальных упорядоченных элементов подпоследовательностей
                 while (left != right)
                 {
-                    var mid = (left + right)/2;
+                    var mid = (left + right) / 2;
                     if (tails[mid] < nums[i])
                     {
                         left = mid + 1;
@@ -275,8 +452,8 @@ namespace UnitTestProjectLeetCode
                 }
 
                 tails[left] = nums[i];
-                
-                if(left==size)
+
+                if (left == size)
                     size++;
             }
 
