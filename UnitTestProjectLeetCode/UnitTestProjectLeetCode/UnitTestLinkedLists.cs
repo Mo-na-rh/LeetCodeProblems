@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 
 namespace UnitTestProjectLeetCode
@@ -361,11 +360,11 @@ namespace UnitTestProjectLeetCode
         {
             // 2,1,3,5,6,4,7
             var l1 = new ListNode(7, null);
-            var l2 = new ListNode(4, l1);   
+            var l2 = new ListNode(4, l1);
             var l3 = new ListNode(6, l2);
-            var l4 = new ListNode(5, l3);   
+            var l4 = new ListNode(5, l3);
             var l5 = new ListNode(3, l4);
-            var l6 = new ListNode(1, l5);   
+            var l6 = new ListNode(1, l5);
             var l7 = new ListNode(2, l6);
 
             var node = OddEvenList(l7);
@@ -542,7 +541,7 @@ namespace UnitTestProjectLeetCode
             var l2 = new ListNode(2, l3);
             var l1 = new ListNode(1, l2);
 
-             DeleteNode(l2);
+            DeleteNode(l2);
 
             Assert.AreEqual(3, l1.next.val);
         }
@@ -568,6 +567,62 @@ namespace UnitTestProjectLeetCode
             var cntSubstr = countBinarySubstrings("001100011");
 
             Assert.AreEqual(6, cntSubstr);
+        }
+
+        [TestMethod]
+        public void TestMethodSortList()
+        {
+            // arrange 
+            var l4 = new ListNode(3, null);
+            var l3 = new ListNode(1, l4);
+            var l2 = new ListNode(2, l3);
+            var l1 = new ListNode(4, l2);
+
+            // act 
+            var sortedListHead = SortList(l1);
+
+            // assert
+            Assert.AreEqual(1, sortedListHead.val);
+        }
+
+        public ListNode SortList(ListNode head)
+        {
+            /*
+             надо работать с указателями, 
+             */
+
+            return sortedMerge(head, head.next);
+        }
+
+        // Берем два списка, отсортированных по возрастанию, и объединяем их узлы
+        // сделать один большой отсортированный список, который будет возвращен
+        private ListNode sortedMerge(ListNode a, ListNode b)
+        {
+            // базовые случаи
+            if (a == null)
+            {
+                return b;
+            }
+            else if (b == null)
+            {
+                return a;
+            }
+
+            ListNode result = null;
+
+            // выбираем `a` или `b` и повторяем
+            if (a.val <= b.val)
+            {
+                result = a;
+                result.next = sortedMerge(a.next, b);
+            }
+            else
+            {
+                result = b;
+                result.next = sortedMerge(a, b.next);
+            }
+
+            return result;
         }
 
         public int countBinarySubstrings(String s)
@@ -688,7 +743,7 @@ namespace UnitTestProjectLeetCode
             {
                 cnt++;
                 //prev = curr;
-                curr = curr.next; 
+                curr = curr.next;
             }
 
             if (k % cnt == 0) return head;
@@ -696,7 +751,7 @@ namespace UnitTestProjectLeetCode
             if (k > cnt)
                 cnt = cnt - k % cnt - 1;
             else
-                cnt = cnt - k-1;
+                cnt = cnt - k - 1;
 
             curr = head;
             while (curr != null)
@@ -704,7 +759,7 @@ namespace UnitTestProjectLeetCode
                 if (cnt == 0)
                 {
                     first = curr.next;
-                    
+
                     curr.next = null;
                     curr = first;
                     cnt--;
@@ -762,7 +817,7 @@ namespace UnitTestProjectLeetCode
 
                     head.child = null;
                 }
-                else if  (head.next==null && stk.Count()!=0)
+                else if (head.next == null && stk.Count() != 0)
                 {
                     head.next = stk.Pop();
                     head.next.prev = head;
@@ -833,7 +888,7 @@ namespace UnitTestProjectLeetCode
 
             while (left != null || right != null)
             {
-                if (left == null || (right!=null&&left.val > right.val))
+                if (left == null || (right != null && left.val > right.val))
                 {
                     res.next = right;
                     right = right.next;
@@ -896,20 +951,21 @@ namespace UnitTestProjectLeetCode
         public ListNode OddEvenList(ListNode head)
         {
             if (head == null) return null;
-        
+
             var odd = head;
             var even = head.next;
             var evenHead = even;
-        
-            while (even != null && even.next != null) {
+
+            while (even != null && even.next != null)
+            {
                 odd.next = even.next;
                 odd = odd.next;
                 even.next = odd.next;
                 even = even.next;
             }
-        
+
             odd.next = evenHead;
-        
+
             return head;
 
             /*
@@ -964,7 +1020,7 @@ namespace UnitTestProjectLeetCode
             if (head == null) return null;
 
             // пока 1-e число
-            while (head!=null && head.val == val)
+            while (head != null && head.val == val)
             {
                 head = head.next;
             }
@@ -974,7 +1030,7 @@ namespace UnitTestProjectLeetCode
             while (curr != null)
             {
                 /* здесь должно быть условие при котором элемент удаляется и как он удаляется*/
-                while (curr.next!=null && curr.next.val == val)
+                while (curr.next != null && curr.next.val == val)
                 {
                     curr.next = curr.next.next;
                 }
@@ -1061,7 +1117,7 @@ namespace UnitTestProjectLeetCode
             var curIndx = 0;
             while (l1 != null || l1.next != null)
             {
-                if (curIndx > n-1)
+                if (curIndx > n - 1)
                     l2 = l2.next;
 
                 l1 = l1.next;
@@ -1072,7 +1128,7 @@ namespace UnitTestProjectLeetCode
                 if (l1.next == null)
                 {
 
-                   
+
                     break;
                 }
             }
@@ -1148,9 +1204,9 @@ namespace UnitTestProjectLeetCode
                 var curIndx = 0;
                 var current = _head;
 
-                while (curIndx!=Count)
+                while (curIndx != Count)
                 {
-                    if (index==curIndx)
+                    if (index == curIndx)
                     {
                         return current.val;
                     }
@@ -1204,7 +1260,7 @@ namespace UnitTestProjectLeetCode
                     AddAtTail(val);
                     return;
                 }
-                    
+
 
                 if (index < Count)
                 {
@@ -1246,7 +1302,7 @@ namespace UnitTestProjectLeetCode
                 var curIndx = 0;
                 var current = _head;
 
-                if(index == curIndx)
+                if (index == curIndx)
                 {
                     if (_head.next != null)
                     {
@@ -1312,7 +1368,7 @@ namespace UnitTestProjectLeetCode
             }
             return dummyHead.next;*/
 
-             var res = new ListNode();
+            var res = new ListNode();
 
             var l = l1;
             var p = l2;
@@ -1349,7 +1405,7 @@ namespace UnitTestProjectLeetCode
             public ListNode next;
             public ListNode prev;
 
-            public ListNode(int val = 0,  ListNode next = null, ListNode prev = null)
+            public ListNode(int val = 0, ListNode next = null, ListNode prev = null)
             {
                 this.val = val;
                 this.prev = prev;
@@ -1548,70 +1604,70 @@ namespace UnitTestProjectLeetCode
             int size;
 
             /** Initialize LinkedList here. */
-            /*public MyLinkedList()
-            {
-                head = new ListNode(0);
-                tail = new ListNode(0);
-                head.next = tail;
-                tail.pre = head;
-            }
+        /*public MyLinkedList()
+        {
+            head = new ListNode(0);
+            tail = new ListNode(0);
+            head.next = tail;
+            tail.pre = head;
+        }
 
-            /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
-            /*public int get(int index)
+        /** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
+        /*public int get(int index)
+        {
+            if (index < 0 || index >= size) return -1;
+            ListNode curr = head;
+            for (int i = 0; i <= index; i++)
             {
-                if (index < 0 || index >= size) return -1;
-                ListNode curr = head;
-                for (int i = 0; i <= index; i++)
-                {
-                    curr = curr.next;
-                }
-                return curr.val;
+                curr = curr.next;
             }
+            return curr.val;
+        }
 
-            /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
-           /* public void addAtHead(int val)
+        /** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
+        /* public void addAtHead(int val)
+         {
+             addAtIndex(0, val);
+         }
+
+         /** Append a node of value val to the last element of the linked list. */
+        /*public void addAtTail(int val)
+        {
+            addAtIndex(size, val);
+        }
+
+        /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
+        /*public void addAtIndex(int index, int val)
+        {
+            if (index < 0 || index > size) return;
+            ListNode curr = head;
+            for (int i = 0; i < index; i++)
             {
-                addAtIndex(0, val);
+                curr = curr.next;
             }
+            ListNode newNode = new ListNode(val);
+            newNode.next = curr.next;
+            newNode.next.pre = newNode;
+            curr.next = newNode;
+            newNode.pre = curr;
+            size++;
+        }
 
-            /** Append a node of value val to the last element of the linked list. */
-            /*public void addAtTail(int val)
+
+        /** Delete the index-th node in the linked list, if the index is valid. */
+        /*public void deleteAtIndex(int index)
+        {
+            if (index < 0 || index >= size) return;
+            ListNode curr = head;
+            for (int i = 0; i <= index; i++)
             {
-                addAtIndex(size, val);
+                curr = curr.next;
             }
-
-            /** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
-            /*public void addAtIndex(int index, int val)
-            {
-                if (index < 0 || index > size) return;
-                ListNode curr = head;
-                for (int i = 0; i < index; i++)
-                {
-                    curr = curr.next;
-                }
-                ListNode newNode = new ListNode(val);
-                newNode.next = curr.next;
-                newNode.next.pre = newNode;
-                curr.next = newNode;
-                newNode.pre = curr;
-                size++;
-            }
-
-
-            /** Delete the index-th node in the linked list, if the index is valid. */
-            /*public void deleteAtIndex(int index)
-            {
-                if (index < 0 || index >= size) return;
-                ListNode curr = head;
-                for (int i = 0; i <= index; i++)
-                {
-                    curr = curr.next;
-                }
-                // delete curr;
-                curr.next.pre = curr.pre;
-                curr.pre.next = curr.next;
-                size--;
-            }
-        }*/
+            // delete curr;
+            curr.next.pre = curr.pre;
+            curr.pre.next = curr.next;
+            size--;
+        }
+    }*/
     }
 }

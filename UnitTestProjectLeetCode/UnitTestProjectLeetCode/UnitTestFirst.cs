@@ -335,6 +335,121 @@ namespace UnitTestProjectLeetCode
         }
 
         [TestMethod]
+        public void TestMethodCountQuadruplets()
+        {
+            var arr = new int[4] { 1, 2, 3, 6 };
+
+            var actual = CountQuadruplets(arr);
+
+            Assert.AreEqual(1, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodFourSum()
+        {
+            // arrange
+            var arr = new int[5] { 2, 2, 2, 2, 2 };
+            var target = 8;
+
+            // act
+            var actual = FourSum(arr, target);
+
+            // assert
+            Assert.AreEqual(1, actual.Count);
+        }
+
+        [TestMethod]
+        public void TestMethodFourSum1()
+        {
+            // arrange
+            var arr = new int[6] { 1, 0, -1, 0, -2, 2 };
+            var target = 0;
+
+            // act
+            var actual = FourSum(arr, target);
+
+            // assert
+            Assert.AreEqual(3, actual.Count);
+        }
+
+        public IList<IList<int>> FourSum(int[] nums, int target)
+        {
+            // two pointers
+            // sorting
+            Array.Sort(nums);
+
+            // sliding window
+            /* 
+             
+             */
+
+            var curIndx = 3;
+            var setFour = new HashSet<string>();
+            while (curIndx < nums.Length)
+            {
+                var s1 = nums[curIndx - 3];
+                var s2 = nums[curIndx - 2];
+                var s3 = nums[curIndx - 1];
+                var s4 = nums[curIndx];
+                if (s1 + s2 + s3 + s4 == target && !setFour.Contains($"{s1}_{s2}_{s3}_{s4}"))
+                {
+                    setFour.Add($"{s1}_{s2}_{s3}_{s4}");
+                }
+                curIndx++;
+            }
+
+
+            //var setFour = new HashSet<string>();
+            //for (var i = 0; i < nums.Length - 3; i++)
+            //{
+            //    for (var j = i + 1; j < nums.Length - 2; j++)
+            //    {
+            //        for (var k = j + 1; k < nums.Length - 1; k++)
+            //        {
+            //            for (var l = k + 1; l < nums.Length; l++)
+            //            {
+            //                if (nums[i] + nums[j] + nums[k] + nums[l] == target && !setFour.Contains($"{nums[i]}_{nums[j]}_{nums[k]}_{nums[l]}"))
+            //                {
+            //                    setFour.Add($"{nums[i]}_{nums[j]}_{nums[k]}_{nums[l]}");
+            //                    //cnt.Add(new List<int>() { nums[i], nums[j], nums[k], nums[l] });
+            //                }
+
+            //            }
+            //        }
+            //    }
+            //}
+
+            var cnt = new List<IList<int>>();
+            foreach (var fourStr in setFour)
+            {
+                var arr = fourStr.Split('_');
+                cnt.Add(new List<int>() { int.Parse(arr[0]), int.Parse(arr[1]), int.Parse(arr[2]), int.Parse(arr[3]) });
+            }
+            return cnt;
+        }
+
+        public int CountQuadruplets(int[] nums)
+        {
+            var cnt = 0;
+            for (var i = 0; i < nums.Length - 3; i++)
+            {
+                for (var j = i + 1; j < nums.Length - 2; j++)
+                {
+                    for (var k = j + 1; k < nums.Length - 1; k++)
+                    {
+                        for (var l = k + 1; l < nums.Length; l++)
+                        {
+                            if (nums[i] + nums[j] + nums[k] == nums[l])
+                                cnt++;
+                        }
+                    }
+                }
+            }
+            return cnt;
+        }
+
+
+        [TestMethod]
         public void TestMethodCheckIfFileIsHidden()
         {
             // arrange
@@ -345,6 +460,70 @@ namespace UnitTestProjectLeetCode
 
             // assert
             Assert.AreEqual(false, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodForAlertHandlerGetItemPath()
+        {
+            // arrange
+            var fPath = "R:\\test.xml";
+            var xmlStr = File.ReadAllText(fPath);
+            var siteURL = "http://vsp2";
+
+            // act
+            string actual = GetItemPath(xmlStr, siteURL);
+
+            // assert
+            var expected = "http://vsp2/company/Docs/Sminex/Обыденский%201/Project%20Files/00.%20Политика%20конфиденциальности/Новая%20папка/~$ЦУК45872354234.xlsx";
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodForAlertHandlerGetAuthor()
+        {
+            // arrange
+            var fPath = "R:\\test.xml";
+            var xmlStr = File.ReadAllText(fPath);
+
+            // act
+            string actual = GetAuthor(xmlStr);
+
+            // assert
+            var expected = "Четвериков Виталий";
+            Assert.AreEqual(expected, actual);
+        }
+
+        private string GetAuthor(string xmlStr)
+        {
+            var indx = xmlStr.IndexOf("</div></td></tr>");
+            var endCut = xmlStr.Substring(0, indx);
+            var lastIndex = endCut.LastIndexOf(">");
+            var author = endCut.Substring(lastIndex + 1);
+            return author;
+        }
+
+        private string GetItemPath(string xmlStr)
+        {
+            var indx = xmlStr.IndexOf("/company/Docs/");
+            var startCut = xmlStr.Substring(indx);
+            indx = startCut.IndexOf('"');
+            var itemPath = startCut.Substring(0, indx);
+            return itemPath;
+        }
+        private string GetItemPath(string xmlStr, string siteUrl)
+        {
+            var indx = xmlStr.LastIndexOf(siteUrl);
+            if (indx == -1)
+                return default(string);
+            var prefixCut = xmlStr.Substring(indx);
+            indx = prefixCut.IndexOf('"');
+            var itemPath = prefixCut.Substring(0, indx);
+
+            indx = xmlStr.IndexOf(itemPath);
+            var pCut = xmlStr.Substring(indx);
+            indx = pCut.IndexOf('"');
+            var res = pCut.Substring(0, indx);
+            return res;
         }
 
         private bool CheckIfHidden(string fPath)

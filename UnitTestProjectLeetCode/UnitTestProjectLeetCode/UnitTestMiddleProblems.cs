@@ -219,7 +219,6 @@ namespace UnitTestProjectLeetCode
             // arrange
             var actual = new int[6] { 2, 0, 2, 1, 1, 0 };
 
-
             // act
             SortColors(actual);
 
@@ -228,9 +227,95 @@ namespace UnitTestProjectLeetCode
             CollectionAssert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void TestMethodDuplicateNums()
+        {
+            // arrange
+            var nums = new int[5] { 1, 3, 4, 2, 2 };
+
+            // act
+            var actual = FindDuplicate(nums);
+
+            // assert
+            var expected = 2;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodDuplicateNums1()
+        {
+            // arrange
+            var nums = new int[5] { 3, 1, 3, 4, 2 };
+
+            // act
+            var actual = FindDuplicate(nums);
+
+            // assert
+            var expected = 3;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodDuplicateNums2()
+        {
+            // arrange
+            var nums = new int[10] { 7, 9, 7, 4, 2, 8, 7, 7, 1, 5 };
+
+            // act
+            var actual = FindDuplicate(nums);
+
+            // assert
+            var expected = 7;
+            Assert.AreEqual(expected, actual);
+        }
+
+        public int FindDuplicate(int[] nums)
+        {
+            //Array.Sort(nums);
+
+            var prevNum = 0;
+            for (var i = 0; i < nums.Length; i++)
+            {
+                //if (prevNum == nums[i])
+                //    return nums[i];
+                // prevNum = nums[i];
+                prevNum ^= nums[i];
+            }
+
+            return 0;
+        }
+
         public void SortColors(int[] nums)
         {
+            var redCnt = 0;
+            var whiteCnt = 0;
+            var blueCnt = 0;
 
+            foreach (int num in nums)
+            {
+                if (num == 0)
+                    redCnt++;
+                else if (num == 1)
+                    whiteCnt++;
+                else
+                    blueCnt++;
+            }
+
+            for (var i = 0; i < nums.Length; i++)
+            {
+                if (redCnt != 0)
+                {
+                    nums[i] = 0;
+                    redCnt--;
+                }
+                else if (whiteCnt != 0)
+                {
+                    nums[i] = 1;
+                    whiteCnt--;
+                }
+                else
+                    nums[i] = 2;
+            }
         }
 
         public bool SearchMatrix(int[][] matrix, int target)
