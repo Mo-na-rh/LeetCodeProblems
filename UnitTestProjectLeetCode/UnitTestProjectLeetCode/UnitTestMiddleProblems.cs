@@ -1,5 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Text;
 
 namespace UnitTestProjectLeetCode
 {
@@ -228,9 +231,75 @@ namespace UnitTestProjectLeetCode
             CollectionAssert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void TestMethodZigZagConversion()
+        {
+            // arrange
+            var s = "PAYPALISHIRING";
+            var numRows = 3;
+
+            // act
+            var actual = ConvertZ(s,numRows);
+
+            // assert
+            var expected = "PAHNAPLSIIGYIR";
+            Assert.AreEqual(expected, actual);
+        }
+
+        public string ConvertZ(string s, int numRows)
+        {
+            List <char[]> zigZagList = new List<char[]>();
+
+            // first fill zigzag
+            // указатели в строке
+            var cIndx = 0;
+
+            while (cIndx < s.Length)
+            {
+                // first vertical arr
+                var firstArr = new char[numRows];
+
+                var lIndex = 0;
+                while (cIndx<s.Length && lIndex < numRows)
+                {
+                    firstArr[lIndex] = s[cIndx];
+                    lIndex++;
+                    cIndx++;
+                }
+                zigZagList.Add(firstArr);
+                
+                // там где идёт зиг заг  
+                var mIndex = numRows - 2;
+                while (cIndx < s.Length && mIndex > 0)
+                {
+                    var arr = new char[numRows];
+                    arr[mIndex] = s[cIndx];
+                    zigZagList.Add(arr);
+                    cIndx++;
+                    mIndex--;
+                }
+            }
+
+            // second convert to target character sequence
+            var sb = new StringBuilder();
+            // vertical
+            for(var i = 0; i < numRows; i++)
+            {
+                // horizontal
+                for(var  j = 0; j < zigZagList.Count;j++)
+                {
+                    if (zigZagList[j][i] != default(char))
+                        sb.Append(zigZagList[j][i]);
+                }
+            }
+
+            return sb.ToString();
+        }
+
+
         public void SortColors(int[] nums)
         {
-
+            throw new NotImplementedException();
         }
 
         public bool SearchMatrix(int[][] matrix, int target)
