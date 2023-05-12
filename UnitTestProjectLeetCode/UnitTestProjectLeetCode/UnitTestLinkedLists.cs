@@ -585,6 +585,84 @@ namespace UnitTestProjectLeetCode
             Assert.AreEqual(1, sortedListHead.val);
         }
 
+        [TestMethod]
+        public void TestMethodDetectCycle()
+        {
+            // arrange 
+            var l4 = new ListNode(-4);
+            var l3 = new ListNode(0, l4);
+            var l2 = new ListNode(2, l3);
+            l4.next = l2;
+            var l1 = new ListNode(3, l2);
+
+            // act 
+            var actualNode = DetectCycle(l1);
+
+            // assert
+            Assert.AreEqual(l2, actualNode);
+        }
+
+        [TestMethod]
+        public void TestMethodDetectCycle1()
+        {
+            // arrange 
+            var l2 = new ListNode(2);
+            var l1 = new ListNode(1, l2);
+            l2.next = l1;
+
+            // act 
+            var actualNode = DetectCycle(l1);
+
+            // assert
+            Assert.AreEqual(l1, actualNode);
+        }
+
+        [TestMethod]
+        public void TestMethodDetectCycle2()
+        {
+            // arrange 
+            var l4 = new ListNode(-4);
+            var l41 = new ListNode(8, l4);
+            var l3 = new ListNode(0, l41);
+            var l2 = new ListNode(2, l3);
+            l4.next = l2;
+            var l1 = new ListNode(3, l2);
+
+            // act 
+            var actualNode = DetectCycle(l1);
+
+            // assert
+            Assert.AreEqual(l2, actualNode);
+        }
+
+        public ListNode DetectCycle(ListNode head)
+        {
+            if (head == null || head.next == null)
+                return null;
+
+            var slow = head;
+            var fast = head;
+
+            // first find start loop ищем петлю 
+            do
+            {
+                slow = slow.next;
+                fast = fast?.next?.next;
+            }
+            while (fast != null && slow != fast);
+
+            // second ищем вторую точку
+            slow = head;
+            while (fast != slow)
+            {
+                slow = slow?.next;
+                fast = fast?.next;
+            }
+
+            // find 
+            return slow;
+        }
+
         public ListNode SortList(ListNode head)
         {
             /*

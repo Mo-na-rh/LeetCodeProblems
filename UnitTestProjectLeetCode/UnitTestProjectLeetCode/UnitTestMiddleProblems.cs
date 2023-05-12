@@ -114,10 +114,9 @@ namespace UnitTestProjectLeetCode
             a[1] = new int[] { 10, 11, 13 };
             a[2] = new int[] { 12, 13, 15 };
 
-
             var actual = KthSmallest(a, 8);
 
-            Assert.AreEqual(13, actual);
+            Assert.AreEqual(15, actual);
         }
 
         [TestMethod]
@@ -227,33 +226,9 @@ namespace UnitTestProjectLeetCode
             CollectionAssert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        public void TestMethodDuplicateNums()
-        {
-            // arrange
-            var nums = new int[5] { 1, 3, 4, 2, 2 };
 
-            // act
-            var actual = FindDuplicate(nums);
 
-            // assert
-            var expected = 2;
-            Assert.AreEqual(expected, actual);
-        }
 
-        [TestMethod]
-        public void TestMethodDuplicateNums1()
-        {
-            // arrange
-            var nums = new int[5] { 3, 1, 3, 4, 2 };
-
-            // act
-            var actual = FindDuplicate(nums);
-
-            // assert
-            var expected = 3;
-            Assert.AreEqual(expected, actual);
-        }
 
         [TestMethod]
         public void TestMethodDuplicateNums2()
@@ -269,20 +244,175 @@ namespace UnitTestProjectLeetCode
             Assert.AreEqual(expected, actual);
         }
 
-        public int FindDuplicate(int[] nums)
+        [TestMethod]
+        public void TestMethodDuplicateNums1()
         {
-            //Array.Sort(nums);
+            // arrange
+            var nums = new int[5] { 3, 1, 3, 4, 2 };
+            // n+1 = 5
+            // n = 4
 
-            var prevNum = 0;
-            for (var i = 0; i < nums.Length; i++)
+            // act
+            var actual = FindDuplicate(nums);
+
+            // assert
+            var expected = 3;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodDuplicateNums()
+        {
+            // arrange
+            var nums = new int[5] { 2, 3, 1, 1, 1 };
+
+            // act
+            var actual = FindDuplicate(nums);
+
+            // assert
+            var expected = 1;
+            Assert.AreEqual(expected, actual);
+        }
+
+        public int findDuplicate_bs(int[] nums)
+        {
+            int len = nums.Length;
+            int low = 1;
+            int high = len - 1;
+            while (low < high)
             {
-                //if (prevNum == nums[i])
-                //    return nums[i];
-                // prevNum = nums[i];
-                prevNum ^= nums[i];
+                int mid = low + (high - low) / 2;
+                int cnt = 0;
+                for (int i = 0; i < len; i++)
+                {
+                    if (nums[i] <= mid)
+                    {
+                        cnt++;
+                    }
+                }
+
+                if (cnt <= mid)
+                {
+                    low = mid + 1;
+                }
+                else
+                {
+                    high = mid;
+                }
             }
 
-            return 0;
+            return low;
+        }
+
+        public int FindDuplicate(int[] nums)
+        {
+            int slow = 0;
+            int fast = 0;
+            do
+            {
+                slow = nums[slow];
+                fast = nums[nums[fast]];
+            } while (slow != fast);
+
+            slow = 0;
+            while (slow != fast)
+            {
+                slow = nums[slow];
+                fast = nums[fast];
+            }
+
+            return slow;
+
+            //var res = 0;
+            //for (var i = 1; i < nums.Length; i++)
+            //{
+            //    res ^= i;
+            //}
+            //for (var i = 0; i < nums.Length; i++)
+            //{
+
+            //    res ^= nums[i];
+            //}
+            //return res;
+
+            //var maxNum = 0;
+            //for (var i = 0; i < nums.Length; i++)
+            //{
+            //    if (nums[i] > maxNum)
+            //        maxNum = nums[i];
+            //}
+            //var minNum = int.MaxValue;
+            //for (var i = 0; i < nums.Length; i++)
+            //{
+            //    if (nums[i] < minNum)
+            //        minNum = nums[i];
+            //}
+            //var allXor = 0;
+            //for (var i = minNum; i <= maxNum; i++)
+            //{
+            //    allXor ^= i;
+            //}
+
+            //var currXOR = 0;
+            //for (var i = 0; i < nums.Length; i++)
+            //{
+            //    currXOR ^= nums[i];
+            //}
+
+            //var res = currXOR ^ allXor;
+
+            //var wrap = 0;
+            //var prevWrap = -1;
+            //for (var i = 0; i < nums.Length; i++)
+            //{
+            //    wrap = wrap ^ nums[i];
+
+            //    if (wrap - prevWrap == nums[i])
+            //    {
+            //        return nums[i];
+            //    }
+
+            //    prevWrap = wrap;
+            //}
+
+            //return res;
+
+
+
+
+            //var prevNum = 0;
+            //var fPointer = 0;
+            //var sPointer = nums.Length - 1;
+            //var sign = false;
+            //while (fPointer < sPointer)
+            //{
+            //    if (nums[fPointer] == nums[sPointer])
+            //    {
+            //        return nums[fPointer];
+            //    }
+            //    if (sign)
+            //    {
+            //        fPointer++;
+            //    }
+            //    else
+            //    {
+            //        sPointer--;
+            //    }
+
+            //    sign = !sign;
+
+            //}
+
+            //for (var i = 0; i < nums.Length; i++)
+            //{
+            //    //if (prevNum == nums[i])
+            //    //    return nums[i];
+            //    //prevNum = nums[i];
+            //    prevNum ^= nums[i];
+
+            //}
+
+            //return 0;
         }
 
         public void SortColors(int[] nums)
