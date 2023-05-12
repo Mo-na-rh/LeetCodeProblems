@@ -1,4 +1,7 @@
-﻿namespace UnitTestProjectLeetCode
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+
+namespace UnitTestProjectLeetCode
 {
     [TestClass]
     public class UnitTestMiddleProblems
