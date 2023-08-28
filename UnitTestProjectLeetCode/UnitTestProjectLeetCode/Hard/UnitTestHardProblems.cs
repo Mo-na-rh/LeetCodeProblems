@@ -24,13 +24,13 @@ namespace UnitTestProjectLeetCode
         public void ExistSequence_GetLength_ShouldReturnLengthOfMaxValidSequence1()
         {
             // arrange 
-            var s = "()(()()";
+            var s = "()(()()()((((";
 
             // act
             var actual = GetLengthOfMaxValidSequence(s);
 
             // Assert
-            Assert.AreEqual(4, actual);
+            Assert.AreEqual(6, actual);
         }
 
         [TestMethod]

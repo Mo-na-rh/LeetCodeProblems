@@ -1,10 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography;
 using System.Text;
 
 namespace UnitTestProjectLeetCode
@@ -118,7 +114,7 @@ namespace UnitTestProjectLeetCode
 
             var actual = SortedSquares(nums);
 
-            var expected = new int[3] { 0, 9,100 };
+            var expected = new int[3] { 0, 9, 100 };
             CollectionAssert.AreEqual(expected, actual);
         }
 
@@ -185,7 +181,7 @@ namespace UnitTestProjectLeetCode
 
             MoveZeroes(ref nums);
 
-            var expected = new int[3] { 1,0,0 };
+            var expected = new int[3] { 1, 0, 0 };
             CollectionAssert.AreEqual(expected, nums);
         }
 
@@ -215,7 +211,7 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void TestMethodTwoSum1()
         {
-            var nums = new int[2] { -1,0 };
+            var nums = new int[2] { -1, 0 };
 
             var actual = TwoSum(nums, -1);
 
@@ -304,7 +300,7 @@ namespace UnitTestProjectLeetCode
             // input  image = [[1,1,1],[1,1,0],[1,0,1]], sr = 1, sc = 1, color = 2
             // output [[2,2,2],[2,2,0],[2,0,1]]
             var img = new int[3][];
-            img[0]= new int[3] {1, 1, 1};
+            img[0] = new int[3] { 1, 1, 1 };
             img[1] = new int[3] { 1, 1, 0 };
             img[2] = new int[3] { 1, 0, 1 };
 
@@ -320,11 +316,11 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void TestMethodSingleNumber()
         {
-            var nums = new int[3] {2,2,1};
+            var nums = new int[3] { 2, 2, 1 };
 
             var actual = SingleNumber(nums);
 
-            Assert.AreEqual(1,actual);
+            Assert.AreEqual(1, actual);
         }
 
         //[TestMethod]
@@ -374,7 +370,7 @@ namespace UnitTestProjectLeetCode
 
             var actual = ClimbStairs(n);
 
-            Assert.AreEqual(2,actual);
+            Assert.AreEqual(2, actual);
         }
 
 
@@ -432,6 +428,8 @@ namespace UnitTestProjectLeetCode
         public void TestMethodLongestPalindrome2()
         {
             var s = "abb";
+            var s1 = "NCeghBfGgcbjLCOGG18ESDj1liiZKfiV:lmOHwfBwPI2hQcah";
+            var s3 = Convert.ToBase64String(Encoding.ASCII.GetBytes(s1));
 
             var actual = LongestPalindrome(s);
 
@@ -505,7 +503,7 @@ namespace UnitTestProjectLeetCode
                     dupCount++;
                 }
                 else
-                { 
+                {
 
                 }
             }
@@ -531,7 +529,6 @@ namespace UnitTestProjectLeetCode
             if (nums.Length == 2)
                 return Math.Max(nums[0], nums[1]);
 
-            var ans = 0;
 
             var i = 0;
 
@@ -546,10 +543,10 @@ namespace UnitTestProjectLeetCode
                 rob = nums[i];
 
 
-                i+=2;
+                i += 2;
             }
 
-            return Math.Max(rob,norob);
+            return Math.Max(rob, norob);
         }
 
 
@@ -586,16 +583,16 @@ namespace UnitTestProjectLeetCode
             var rob = 0;
             var norob = 0;
 
-            for (var i = 0; i < nums.Length; i+=2)
+            for (var i = 0; i < nums.Length; i += 2)
             {
                 rob = nums[i];
                 norob = Math.Max(rob, norob);// (i+1) < nums.Length?nums[i+1]:0;
 
                 ans1 += rob;
-                ans2 += Math.Max(rob,norob);
+                ans2 += Math.Max(rob, norob);
             }
 
-            return Math.Max(ans1,ans2);
+            return Math.Max(ans1, ans2);
         }
 
         public int ClimbStairs(int n)
@@ -606,7 +603,7 @@ namespace UnitTestProjectLeetCode
             var dict = new Dictionary<int, int>();
             // recurrency relation
             var ans = 0;
-            ans += ClimbStairs1(n-1, dict) + ClimbStairs1(n-2, dict);
+            ans += ClimbStairs1(n - 1, dict) + ClimbStairs1(n - 2, dict);
             return ans;
         }
 
@@ -633,7 +630,7 @@ namespace UnitTestProjectLeetCode
                 return true;
 
             var str = ToBin(n);
-            for(var i = 1; i < str.Length; i++)
+            for (var i = 1; i < str.Length; i++)
             {
                 if (str[i] == '1')
                     return false;
@@ -667,7 +664,7 @@ namespace UnitTestProjectLeetCode
         public int[][] FloodFill(int[][] image, int sr, int sc, int color)
         {
             int oldColor = image[sr][sc];
-            if (oldColor != color) 
+            if (oldColor != color)
                 dfs(image, sr, sc, oldColor, color);
             return image;
         }
@@ -677,14 +674,14 @@ namespace UnitTestProjectLeetCode
             if (image[r][c] == color)
             {
                 image[r][c] = newColor;
-                if (r >= 1) 
+                if (r >= 1)
                     dfs(image, r - 1, c, color, newColor);
-                if (c >= 1) 
+                if (c >= 1)
                     dfs(image, r, c - 1, color, newColor);
 
-                if (r + 1 < image.Length) 
+                if (r + 1 < image.Length)
                     dfs(image, r + 1, c, color, newColor);
-                if (c + 1 < image[0].Length) 
+                if (c + 1 < image[0].Length)
                     dfs(image, r, c + 1, color, newColor);
             }
         }
@@ -738,7 +735,7 @@ namespace UnitTestProjectLeetCode
         public int LengthOfLongestSubstring(string s)
         {
             int left = 0, right = 0;
-            
+
             // initialize dictionary window
             // будем следить чтоб в окне не  было повторяющихся символов
             Dictionary<char, int> window = new Dictionary<char, int>();
@@ -771,11 +768,11 @@ namespace UnitTestProjectLeetCode
         {
             var words = s.Split(' ');
             var sb = new StringBuilder();
-            for(var i=0;i<words.Length;i++)
+            for (var i = 0; i < words.Length; i++)
             {
                 var chars = words[i].ToCharArray();
                 ReverseString(chars);
-                sb.Append( new string(chars)+" ");
+                sb.Append(new string(chars) + " ");
             }
 
             return sb.ToString().TrimEnd();
@@ -785,11 +782,11 @@ namespace UnitTestProjectLeetCode
         {
             var r = 0;
             var l = s.Length - 1;
-            while(r < l)
+            while (r < l)
             {
                 var tmp = s[r];
-                s[r]=s[l];
-                s[l]=tmp;
+                s[r] = s[l];
+                s[l] = tmp;
                 r++;
                 l--;
             }
@@ -1021,7 +1018,7 @@ namespace UnitTestProjectLeetCode
 
                 if (nums[middle] < target)
                 {
-                    left = middle+1;
+                    left = middle + 1;
                 }
                 else
                 {
@@ -1030,7 +1027,7 @@ namespace UnitTestProjectLeetCode
             }
 
 
-            return nums[left]==target?left:-1;
+            return nums[left] == target ? left : -1;
         }
     }
 }

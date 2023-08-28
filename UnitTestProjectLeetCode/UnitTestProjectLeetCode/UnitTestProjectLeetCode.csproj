@@ -3,7 +3,7 @@
   <Import Project="..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props" Condition="Exists('..\packages\MSTest.TestAdapter.1.3.2\build\net45\MSTest.TestAdapter.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
-   <LangVersion>preview</LangVersion>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -71,18 +71,23 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Middle\UnitTestUnionFind.cs" />
     <Compile Include="UnitTestTwoPointers.cs" />
-    <Compile Include="UnitTestHardProblems.cs" />
-    <Compile Include="UnitTestMiddleProblems.cs" />
+    <Compile Include="Hard\UnitTestHardProblems.cs" />
+    <Compile Include="Middle\UnitTestMiddleProblems.cs" />
     <Compile Include="AlgoritmsUnitTest.cs" />
     <Compile Include="UnitTestFirst.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTestArrays.cs" />
     <Compile Include="UnitTestLinkedLists.cs" />
     <Compile Include="UnitTestTopEasyProblems.cs" />
+    <Compile Include="Utils\DisjointSet.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Easy\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

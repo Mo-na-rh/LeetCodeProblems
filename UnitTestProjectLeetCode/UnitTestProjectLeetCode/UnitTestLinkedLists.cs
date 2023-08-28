@@ -793,11 +793,11 @@ namespace UnitTestProjectLeetCode
                 odd = evenHead;
                 even = evenHead.next;
                 evenHead = even;
-            }*/
+            }
 
 
 
-            return head;
+            return head;*/
         }
 
         public void DeleteNode(ListNode node)

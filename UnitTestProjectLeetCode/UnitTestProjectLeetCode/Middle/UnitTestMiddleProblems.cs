@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using System.Collections.Generic;
 
 namespace UnitTestProjectLeetCode
 {
@@ -226,9 +227,28 @@ namespace UnitTestProjectLeetCode
             CollectionAssert.AreEqual(expected, actual);
         }
 
-        public void SortColors(int[] nums)
+        [TestMethod]
+        public void TestMethodFourSum()
+        {
+            // todo implement solution
+        }
+
+        [TestMethod]
+        public void TestMethodNextPermutation()
         {
 
+        }
+
+
+        private IList<IList<int>> FourSum(int[] nums, int target)
+        {
+            var cnt = new List<IList<int>>();
+            return cnt;
+        }
+
+        public void SortColors(int[] nums)
+        {
+            throw new NotImplementedException();
         }
 
         public bool SearchMatrix(int[][] matrix, int target)
