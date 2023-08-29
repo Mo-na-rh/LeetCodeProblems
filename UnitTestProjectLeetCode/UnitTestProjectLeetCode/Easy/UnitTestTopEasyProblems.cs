@@ -1,9 +1,7 @@
-﻿using System;
-using System.Text;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace UnitTestProjectLeetCode
 {
@@ -21,7 +19,7 @@ namespace UnitTestProjectLeetCode
             //1702766719
             var bad = FirstBadVersion(2126753390);
 
-            Assert.AreEqual(1702766719,bad);
+            Assert.AreEqual(1702766719, bad);
         }
 
         [TestMethod]
@@ -111,7 +109,7 @@ namespace UnitTestProjectLeetCode
         [TestMethod]
         public void TestMethodFindErrorNums()
         {
-            var nums = new int[2] { 1, 1};
+            var nums = new int[2] { 1, 1 };
 
             var res = FindErrorNums(nums);
 
@@ -128,6 +126,45 @@ namespace UnitTestProjectLeetCode
 
             Assert.AreEqual(2, res[0]);
             Assert.AreEqual(3, res[1]);
+        }
+
+        [TestMethod]
+        public void TestMethodJudgeCircle()
+        {
+            var moves = "UD";
+
+            var res = JudgeCircle(moves);
+
+            Assert.IsTrue(res);
+
+        }
+
+        public bool JudgeCircle(string moves)
+        {
+            var udCntr = 0;
+            var rlCntr = 0;
+            for (var i = 0; i < moves.Length; i++)
+            {
+                var move = moves[i];
+                if (move == 'U')
+                {
+                    udCntr++;
+                }
+                else if (move == 'D')
+                {
+                    udCntr--;
+                }
+                else if (move == 'L')
+                {
+                    rlCntr--;
+                }
+                else if (move == 'R')
+                {
+                    rlCntr++;
+                }
+            }
+
+            return (udCntr == 0) && (rlCntr == 0);
         }
 
         public int[] FindErrorNums(int[] nums)
@@ -173,14 +210,14 @@ namespace UnitTestProjectLeetCode
 
         int GetCountSteps(int n)
         {
-            if (n == 0 ) return n;
-            if(n == 1 || n == 2) return 1;
+            if (n == 0) return n;
+            if (n == 1 || n == 2) return 1;
 
             var prev = 1;
             var next = 2;
-            var cnt =0;
+            var cnt = 0;
             while (true)
-            { 
+            {
                 var tmp = prev;
                 prev = next;
                 next = prev + tmp;
@@ -201,9 +238,9 @@ namespace UnitTestProjectLeetCode
             while (true)
             {
                 i++;
-                sum+=i;
-                
-                if(sum>n)
+                sum += i;
+
+                if (sum > n)
                     break;
                 cnt++;
             }
@@ -216,7 +253,7 @@ namespace UnitTestProjectLeetCode
             // first 
             Regex rgx = new Regex("[^a-zA-Z0-9 ]");
             //s = new string(s.Where(c => char.IsLetterOrDigit(c) || char.IsWhiteSpace(c) ).ToArray());
-            s=rgx.Replace(s, "").Replace(" ","").ToLower();
+            s = rgx.Replace(s, "").Replace(" ", "").ToLower();
             // second part
             var chrs = s.ToCharArray();
             var l = 0;
@@ -233,7 +270,7 @@ namespace UnitTestProjectLeetCode
 
 
             return true;
-         }
+        }
 
 
         public bool IsAnagram(string s, string t)
@@ -287,7 +324,7 @@ namespace UnitTestProjectLeetCode
                 }
                 else
                 {
-                    dict.Add(chars[i],1);
+                    dict.Add(chars[i], 1);
                 }
             }
 
@@ -299,7 +336,7 @@ namespace UnitTestProjectLeetCode
                 }
             }
 
-                return -1;
+            return -1;
         }
 
 
@@ -375,9 +412,9 @@ namespace UnitTestProjectLeetCode
         public void ReverseString(char[] s)
         {
             var l = 0;
-            var r = s.Length-1;
+            var r = s.Length - 1;
 
-            while (l<r)
+            while (l < r)
             {
                 var tmp = s[l];
                 s[l] = s[r];
