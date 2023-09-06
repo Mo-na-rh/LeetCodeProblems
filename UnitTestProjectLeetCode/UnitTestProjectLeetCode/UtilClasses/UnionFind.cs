@@ -5,7 +5,7 @@
         int[] par;
         int[] rank;
 
-        public int findCircleNum(int[][] isConnected)
+        public int FindCircleNum(int[][] isConnected)
         {
             int n = isConnected.Length;
             par = new int[n];
@@ -31,17 +31,17 @@
                         // returns 1 which is decremented from res...
                         // finally, the number of unions will be
                         // res - the count of edges for which we added to previous union set.
-                        groups -= union_find(i, j);
+                        groups -= Union_find(i, j);
                 }
             }
             return groups;
         }
 
-        int union_find(int n1, int n2)
+        int Union_find(int n1, int n2)
         {
-            int p1 = find(n1);
+            int p1 = Find(n1);
 
-            int p2 = find(n2);
+            int p2 = Find(n2);
 
             // the nodes that are already in a union set will have same parent
             if (p1 == p2)
@@ -68,7 +68,7 @@
         /// </summary>
         /// <param name="x"></param>
         /// <returns></returns>
-        int find(int x)
+        int Find(int x)
         {
             // find the top most parent of the current node
             // top most parent will have itself as it's parent

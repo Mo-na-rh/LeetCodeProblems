@@ -139,6 +139,59 @@ namespace UnitTestProjectLeetCode
 
         }
 
+        [TestMethod]
+        public void TestMethodFurthestDistanceFromOrigin()
+        {
+            var moves = "L_RL__R";
+
+            var actual = FurthestDistanceFromOrigin(moves);
+
+            Assert.AreEqual(3, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodFurthestDistanceFromOrigin1()
+        {
+            var moves = "_R__LL_";
+
+            var actual = FurthestDistanceFromOrigin(moves);
+
+            Assert.AreEqual(5, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodFurthestDistanceFromOrigin4()
+        {
+            var moves = "R_____RRR__R_RRRRL__LL_______RR__RRL_LRLRL";
+
+            var actual = FurthestDistanceFromOrigin(moves);
+
+            Assert.AreEqual(28, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodFurthestDistanceFromOrigin2()
+        {
+            var moves = "_______";
+
+            var actual = FurthestDistanceFromOrigin(moves);
+
+            Assert.AreEqual(7, actual);
+        }
+
+        public int FurthestDistanceFromOrigin(string moves)
+        {
+            var dict = new Dictionary<char, int>
+            {
+                { 'L', 0 },
+                { 'R', 0 },
+                { '_', 0 }
+            };
+            foreach (var ch in moves)
+                dict[ch]++;
+            return Math.Abs(dict['L'] - dict['R']) + dict['_'];
+        }
+
         public bool JudgeCircle(string moves)
         {
             var udCntr = 0;
@@ -229,29 +282,10 @@ namespace UnitTestProjectLeetCode
             return cnt;
         }
 
-        int GetCountSteps1(int n)
-        {
-
-            var i = 0;
-            var sum = 0;
-            var cnt = 0;
-            while (true)
-            {
-                i++;
-                sum += i;
-
-                if (sum > n)
-                    break;
-                cnt++;
-            }
-
-            return cnt;
-        }
-
         public bool IsPalindrome(string s)
         {
             // first 
-            Regex rgx = new Regex("[^a-zA-Z0-9 ]");
+            Regex rgx = new("[^a-zA-Z0-9 ]");
             //s = new string(s.Where(c => char.IsLetterOrDigit(c) || char.IsWhiteSpace(c) ).ToArray());
             s = rgx.Replace(s, "").Replace(" ", "").ToLower();
             // second part
@@ -342,19 +376,18 @@ namespace UnitTestProjectLeetCode
 
         public int Reverse(int x)
         {
-            var temp = 0;
             var result = 0;
 
             while (x != 0)
             {
                 var last_d = x % 10;
-                temp = result * 10 + last_d;
+                int temp = result * 10 + last_d;
 
                 if ((temp - last_d) / 10 != result)
                     return 0;
 
                 result = temp;
-                x = x / 10;
+                x /= 10;
             }
 
             return result;
@@ -416,14 +449,10 @@ namespace UnitTestProjectLeetCode
 
             while (l < r)
             {
-                var tmp = s[l];
-                s[l] = s[r];
-                s[r] = tmp;
-
+                (s[r], s[l]) = (s[l], s[r]);
                 r--;
                 l++;
             }
-
         }
 
         public int FirstBadVersion(int n)

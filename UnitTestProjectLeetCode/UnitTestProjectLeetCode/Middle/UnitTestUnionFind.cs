@@ -142,7 +142,7 @@ namespace UnitTestProjectLeetCode
         public int FindCircleNumUF(int[][] isConnected)
         {
             var dsu = new UnionFind();
-            return dsu.findCircleNum(isConnected);
+            return dsu.FindCircleNum(isConnected);
         }
     }
 }
