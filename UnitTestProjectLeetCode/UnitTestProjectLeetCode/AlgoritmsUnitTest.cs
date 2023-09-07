@@ -738,7 +738,7 @@ namespace UnitTestProjectLeetCode
 
             // initialize dictionary window
             // будем следить чтоб в окне не  было повторяющихся символов
-            Dictionary<char, int> window = new Dictionary<char, int>();
+            Dictionary<char, int> window = new();
             int res = 0; // запись самой длинной длины
             while (right < s.Length)
             {
@@ -784,9 +784,7 @@ namespace UnitTestProjectLeetCode
             var l = s.Length - 1;
             while (r < l)
             {
-                var tmp = s[r];
-                s[r] = s[l];
-                s[l] = tmp;
+                (s[l], s[r]) = (s[r], s[l]);
                 r++;
                 l--;
             }

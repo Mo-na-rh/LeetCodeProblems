@@ -228,22 +228,46 @@ namespace UnitTestProjectLeetCode
         }
 
         [TestMethod]
-        public void TestMethodFourSum()
+        public void TestMethodGenerateParenthesis()
         {
-            // todo implement solution
+            // arrange 
+            var n = 3;
+
+            // act 
+            var actual = GenerateParenthesis(n);
+
+            // assert
+            Assert.AreEqual(5, actual.Count);
         }
 
-        [TestMethod]
-        public void TestMethodNextPermutation()
+        public IList<string> GenerateParenthesis(int n)
         {
-
+            var ans = new List<string>();
+            generateParenthesis(n, 0, 0, "", ans);
+            return ans;
         }
 
-
-        private IList<IList<int>> FourSum(int[] nums, int target)
+        void generateParenthesis(int n, int open, int close, string s, IList<string> ans)
         {
-            var cnt = new List<IList<int>>();
-            return cnt;
+            // base case
+            if (open == n && close == n)
+            {
+                ans.Add(s);
+                return;
+            }
+
+            // recurrence relation
+            // while open parentheses count less than n
+            if (open < n)
+            {
+                generateParenthesis(n, open + 1, close, s + "(", ans);
+            }
+
+            // while closed parentheses count more than the count of open parentheses
+            if (close < open)
+            {
+                generateParenthesis(n, open, close + 1, s + ")", ans);
+            }
         }
 
         public void SortColors(int[] nums)

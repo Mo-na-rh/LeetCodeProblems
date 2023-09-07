@@ -179,17 +179,120 @@ namespace UnitTestProjectLeetCode
             Assert.AreEqual(7, actual);
         }
 
+        [TestMethod]
+        public void TestMethodDeleteGreatestValue()
+        {
+            var grid = new int[2][];
+            grid[0] = new int[3] { 1, 2, 4 };
+            grid[1] = new int[3] { 3, 3, 1 };
+
+            var actual = DeleteGreatestValue(grid);
+
+            Assert.AreEqual(8, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodDeleteGreatestValue1()
+        {
+            var grid = new int[1][];
+            grid[0] = new int[1] { 10 };
+
+            var actual = DeleteGreatestValue(grid);
+
+            Assert.AreEqual(10, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodFindJudge()
+        {
+            var grid = new int[1][];
+            grid[0] = new int[2] { 1, 2 };
+
+            var actual = FindJudge(2, grid);
+
+            Assert.AreEqual(2, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodFindJudge1()
+        {
+            var grid = new int[2][];
+            grid[0] = new int[2] { 1, 3 };
+            grid[1] = new int[2] { 2, 3 };
+
+            var actual = FindJudge(3, grid);
+
+            Assert.AreEqual(3, actual);
+        }
+
+        public int FindJudge(int n, int[][] trust)
+        {
+            var inArr = new int[n + 1];
+            var outArr = new int[n + 1];
+
+            for (var i = 0; i < trust.Length; i++)
+            {
+                outArr[trust[i][0]]++;
+                inArr[trust[i][1]]++;
+            }
+            for (var i = 0; i <= n; i++)
+            {
+                if (outArr[i] == 0 && inArr[i] == (n - 1))
+                    return i;
+            }
+
+            return -1;
+        }
+        /// <summary>
+        /// O(m*n) + O(mLog(m))
+        /// </summary>
+        /// <param name="grid"></param>
+        /// <returns></returns>
+        public int DeleteGreatestValue(int[][] grid)
+        {
+            var n = grid.Length;
+            var m = grid[0].Length;
+            //vartical
+            for (var i = 0; i < n; i++)
+            {
+                Array.Sort(grid[i]);
+            }
+            var allCnt = 0;
+            // horizontal
+            for (var i = 0; i < m; i++)
+            {
+                var max = 1;
+                // vertical
+                for (var j = 0; j < n; j++)
+                {
+                    if (grid[j][i] > max)
+                        max = grid[j][i];
+                }
+                allCnt += max;
+            }
+
+            return allCnt;
+        }
+
         public int FurthestDistanceFromOrigin(string moves)
         {
-            var dict = new Dictionary<char, int>
+            var count = new int[3];
+            for (int i = 0; i < moves.Length; i++)
             {
-                { 'L', 0 },
-                { 'R', 0 },
-                { '_', 0 }
-            };
-            foreach (var ch in moves)
-                dict[ch]++;
-            return Math.Abs(dict['L'] - dict['R']) + dict['_'];
+                switch (moves[i])
+                {
+                    case 'L':
+                        count[0]++;
+                        break;
+                    case 'R':
+                        count[1]++;
+                        break;
+                    case '_':
+                        count[2]++;
+                        break;
+                }
+            }
+            return Math.Abs(count[0] - count[1]) + count[2];
         }
 
         public bool JudgeCircle(string moves)
