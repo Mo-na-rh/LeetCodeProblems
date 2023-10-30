@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace UnitTestProjectLeetCode
 {
@@ -238,6 +240,271 @@ namespace UnitTestProjectLeetCode
 
             // assert
             Assert.AreEqual(5, actual.Count);
+        }
+
+        [TestMethod]
+        public void TestMethodEqualPairs()
+        {
+            // arrange 
+            var row1 = new int[3] { 3, 2, 1 };
+            var row2 = new int[3] { 1, 7, 6 };
+            var row3 = new int[3] { 2, 7, 7 };
+
+            var grid = new int[3][];
+            grid[0] = row1;
+            grid[1] = row2;
+            grid[2] = row3;
+
+            // act 
+            var actual = EqualPairs(grid);
+
+            // assert
+            Assert.AreEqual(1, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodMaximumDetonation()
+        {
+            // arrange 
+            var row1 = new int[3] { 2, 1, 3 };
+            var row2 = new int[3] { 6, 1, 4 };
+
+            var grid = new int[2][];
+            grid[0] = row1;
+            grid[1] = row2;
+
+            // act 
+            var actual = MaximumDetonation(grid);
+
+            // assert
+            Assert.AreEqual(2, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodMaximumDetonation1()
+        {
+            // arrange 
+            var row1 = new int[3] { 1, 1, 5 };
+            var row2 = new int[3] { 10, 10, 5 };
+
+            var grid = new int[2][];
+            grid[0] = row1;
+            grid[1] = row2;
+
+            // act 
+            var actual = MaximumDetonation(grid);
+
+            // assert
+            Assert.AreEqual(1, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodMaximumDetonation2()
+        {
+            // arrange 
+            var row1 = new int[3] { 1, 2, 3 };
+            var row2 = new int[3] { 2, 3, 1 };
+            var row3 = new int[3] { 3, 4, 2 };
+            var row4 = new int[3] { 4, 5, 3 };
+            var row5 = new int[3] { 5, 6, 4 };
+
+            var grid = new int[5][];
+            grid[0] = row1;
+            grid[1] = row2;
+            grid[2] = row3;
+            grid[3] = row4;
+            grid[4] = row5;
+
+            // act 
+            var actual = MaximumDetonation(grid);
+
+            // assert
+            Assert.AreEqual(5, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodOrangesRotting()
+        {
+            // arrange 
+            var row1 = new int[3] { 2, 1, 1 };
+            var row2 = new int[3] { 1, 1, 0 };
+            var row3 = new int[3] { 0, 1, 1 };
+
+            var grid = new int[3][];
+            grid[0] = row1;
+            grid[1] = row2;
+            grid[2] = row3;
+
+            // act 
+            var actual = OrangesRotting(grid);
+
+            // assert
+            Assert.AreEqual(4, actual);
+        }
+
+        public int OrangesRotting(int[][] grid)
+        {
+            if (grid.Length == 0)
+                return 0;
+            var rowCnt = grid.Length;
+            var colCnt = grid[0].Length;
+
+            var firstRotten = new List<int[]>();
+            var freshCnt = 0;
+            for (var row = 0; row < rowCnt; row++)
+            {
+                for (var col = 0; col < colCnt; col++)
+                {
+                    if (grid[row][col] == 2)
+                        firstRotten.Add(new int[] { row, col });
+
+                    if (grid[row][col] == 1)
+                        freshCnt++;
+                }
+            }
+
+            if (freshCnt == 0)
+                return 0;
+
+            var iterCnt = 0;
+            while (true)
+            {
+                var nextRotten = new List<int[]>();
+                foreach (var rottenItem in firstRotten)
+                {
+                    var row = rottenItem[0];
+                    var col = rottenItem[1];
+
+                    //bottom
+                    if ((row + 1) < rowCnt && grid[row + 1][col] == 1)
+                    {
+                        grid[row + 1][col] = 2;
+                        nextRotten.Add(new int[] { row + 1, col });
+                        freshCnt--;
+                    }
+
+                    //top
+                    if ((row - 1) >= 0 && grid[row - 1][col] == 1)
+                    {
+                        grid[row - 1][col] = 2;
+                        nextRotten.Add(new int[] { row - 1, col });
+                        freshCnt--;
+                    }
+
+                    //right
+                    if ((col + 1) < colCnt && grid[row][col + 1] == 1)
+                    {
+                        grid[row][col + 1] = 2;
+                        nextRotten.Add(new int[] { row, col + 1 });
+                        freshCnt--;
+                    }
+
+                    //left
+                    if ((col - 1) >= 0 && grid[row][col - 1] == 1)
+                    {
+                        grid[row][col - 1] = 2;
+                        nextRotten.Add(new int[] { row, col - 1 });
+                        freshCnt--;
+                    }
+                }
+
+                if (nextRotten.Count == 0)
+                    break;
+
+                firstRotten = nextRotten;
+                iterCnt++;
+            }
+
+            return freshCnt > 0 ? -1 : iterCnt;
+        }
+
+        public int MaximumDetonation(int[][] bombs)
+        {
+            var dict = new Dictionary<int, List<int>>();
+            for (var i = 0; i < bombs.Length; i++)
+            {
+                dict.Add(i, new List<int>());
+                var bomb1 = bombs[i];
+                for (var j = 0; j < bombs.Length; j++)
+                {
+                    if (i == j)
+                        continue;
+                    var bomb2 = bombs[j];
+                    var distance = GetDistance(bomb1[0], bomb1[1], bomb2[0], bomb2[1]);
+                    if (distance <= bomb1[2])
+                    {
+                        dict[i].Add(j);
+                    }
+                }
+            }
+            var ans = 0;
+            foreach (var item in dict)
+            {
+                var hs = new List<int>();
+                MaxDet(item.Key, dict, hs);
+                ans = Math.Max(ans, hs.Count);
+            }
+
+            return ans;
+        }
+
+        private void MaxDet(int key, Dictionary<int, List<int>> dict, List<int> hs)
+        {
+            // base case
+            if (hs.Contains(key))
+            {
+                return;
+            }
+
+            hs.Add(key);
+
+            // recurrence telation
+            var target = dict[key];
+            foreach (var itemKey in target)
+            {
+                MaxDet(itemKey, dict, hs);
+            }
+        }
+
+        private double GetDistance(double x1, double y1, double x2, double y2)
+        {
+            return Math.Sqrt(Math.Pow((x2 - x1), 2) + Math.Pow((y2 - y1), 2));
+        }
+
+        public int EqualPairs(int[][] grid)
+        {
+            var n = grid.Length;
+            var rows = new Dictionary<int, string>();
+            for (var i = 0; i < n; i++)
+            {
+                rows.Add(i, string.Join("_", grid[i].Select(x => x.ToString()).ToArray()));
+            }
+            var cols = new Dictionary<int, string>();
+            //horizontal
+            for (var i = 0; i < n; i++)
+            {
+                //vertical
+                var sb = new StringBuilder();
+                for (var j = 0; j < n; j++)
+                {
+                    sb.Append(grid[j][i].ToString() + "_");
+                }
+                var str = sb.ToString();
+                cols.Add(i, str.Substring(0, str.Length - 1));
+            }
+            var cnt = 0;
+            foreach (var row in rows)
+            {
+                foreach (var col in cols)
+                {
+                    if (row.Value.Equals(col.Value))
+                    {
+                        cnt++;
+                    }
+                }
+            }
+
+            return cnt;
         }
 
         public IList<string> GenerateParenthesis(int n)
