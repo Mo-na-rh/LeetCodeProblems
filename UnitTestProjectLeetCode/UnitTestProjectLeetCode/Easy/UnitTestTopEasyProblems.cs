@@ -225,6 +225,177 @@ namespace UnitTestProjectLeetCode
             Assert.AreEqual(3, actual);
         }
 
+        [TestMethod]
+        public void TestMethodNextGreatestLetter()
+        {
+            var letters = new char[3] { 'c', 'f', 'j' };
+
+            var actual = NextGreatestLetter(letters, 'd');
+
+            Assert.AreEqual('f', actual);
+        }
+
+        [TestMethod]
+        public void TestMethodNextGreatestLetter1()
+        {
+            var grid = new char[4] { 'e', 'e', 'g', 'g' };
+
+            var actual = NextGreatestLetter(grid, 'g');
+
+            Assert.AreEqual('e', actual);
+        }
+
+        [TestMethod]
+        public void TestMethodCountNegatives()
+        {
+            var grid = new int[2][];
+            grid[0] = [3, 2];
+            grid[1] = [1, 0];
+
+            var actual = CountNegatives(grid);
+
+            Assert.AreEqual(0, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodCountNegatives1()
+        {
+            var grid = new int[4][];
+            grid[0] = [4, 3, 2, -1];
+            grid[1] = [3, 2, 1, -1];
+            grid[2] = [1, 1, -1, -2];
+            grid[3] = [-1, -1, -2, -3];
+
+            var actual = CountNegatives(grid);
+
+            Assert.AreEqual(8, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodCountNegatives2()
+        {
+            var grid = new int[2][];
+            grid[0] = [5, 1, 0];
+            grid[1] = [-5, -5, -5];
+
+            var actual = CountNegatives(grid);
+
+            Assert.AreEqual(3, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodCountNegatives3()
+        {
+            var grid = new int[4][];
+            grid[0] = [3, -1, -3, -3, -3];
+            grid[1] = [2, -2, -3, -3, -3];
+            grid[2] = [1, -2, -3, -3, -3];
+            grid[3] = [0, -3, -3, -3, -3];
+
+            var actual = CountNegatives(grid);
+
+            Assert.AreEqual(16, actual);
+        }
+
+        [TestMethod]
+        public void TestMethodModifyConsts()
+        {
+            const string foo = "bar";
+            ModifyString(foo);
+
+            Assert.AreEqual("foo", "bar");
+        }
+
+        unsafe void ModifyString(string foo)
+        {
+            fixed (char* f = foo)
+            {
+                f[0] = 'f';
+                f[1] = 'o';
+                f[2] = 'o';
+                // f[3] = '!';
+            }
+        }
+
+        public int CountNegatives(int[][] grid)
+        {
+            var n = grid.Length;
+            var m = grid[0].Length;
+            var cntr = 0;
+            for (var i = 0; i < n; i++)
+            {
+                var negativeIndex = BinarySearchNegativeIndex(grid[i]);
+                if (negativeIndex == m - 1 && grid[i][m - 1] >= 0)
+                {
+                    continue;
+                }
+
+                cntr += (m - negativeIndex);
+
+            }
+            return cntr;
+        }
+
+        private int BinarySearchNegativeIndex(int[] ints)
+        {
+            var left = 0;
+            var right = ints.Length - 1;
+
+            while (left < right)
+            {
+                var middle = (right + left) / 2;
+
+                if (ints[middle] >= 0)
+                {
+                    left = middle + 1;
+                }
+                else
+                {
+                    right = middle;
+                }
+            }
+
+
+            return right;
+        }
+
+        public char NextGreatestLetter(char[] letters, char target)
+        {
+            var left = 0;
+            var right = letters.Length - 1;
+
+            while (left < right)
+            {
+                var middle = (right + left) / 2;
+
+                if (letters[middle] < target)
+                {
+                    left = middle + 1;
+                }
+                else
+                {
+                    right = middle;
+                }
+            }
+
+            // first case
+            while (letters[left] <= target && left != letters.Length - 1)
+            {
+                left++;
+            }
+
+
+            if (letters[left] > target)
+            {
+                return letters[left];
+            }
+
+
+            return letters[0];
+        }
+
+
+
         public int FindJudge(int n, int[][] trust)
         {
             var inArr = new int[n + 1];
